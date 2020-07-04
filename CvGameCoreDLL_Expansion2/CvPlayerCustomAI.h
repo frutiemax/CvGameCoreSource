@@ -20,6 +20,13 @@ class CvPlayerCustomAI :
 	void AI_launch(VictoryTypes eVictory);
 	bool AI_captureUnit(UnitTypes eUnit, CvPlot* pPlot);
 
+	void AI_City_doTurn(CvCity* city);
+	void AI_City_chooseProduction(CvCity* city, bool bInterruptWonders);
+	bool AI_City_isChooseProductionDirty(CvCity* city);
+	void AI_City_setChooseProductionDirty(CvCity* city, bool bNewValue);
+	int AI_City_GetNumPlotsAcquiredByOtherPlayer(CvCity* city, PlayerTypes ePlayer) const;
+	void AI_City_ChangeNumPlotsAcquiredByOtherPlayer(CvCity* city, PlayerTypes ePlayer, int iChange);
+
 	OperationSlot PeekAtNextUnitToBuildForOperationSlot(int iAreaID);
 	OperationSlot CityCommitToBuildUnitForOperationSlot(int iAreaID, int iTurns, CvCity* pCity);
 	void CityUncommitToBuildUnitForOperationSlot(OperationSlot thisSlot);

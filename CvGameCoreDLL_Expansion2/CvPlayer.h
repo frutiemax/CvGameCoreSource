@@ -1484,6 +1484,13 @@ public:
 	virtual void AI_launch(VictoryTypes eVictory) = 0;
 	virtual bool AI_captureUnit(UnitTypes eUnit, CvPlot* pPlot) = 0;
 
+	virtual void AI_City_doTurn(CvCity* city) = 0;
+	virtual void AI_City_chooseProduction(CvCity* city, bool bInterruptWonders) = 0;
+	virtual bool AI_City_isChooseProductionDirty(CvCity* city) = 0;
+	virtual void AI_City_setChooseProductionDirty(CvCity* city, bool bNewValue) = 0;
+	virtual int AI_City_GetNumPlotsAcquiredByOtherPlayer(CvCity* city, PlayerTypes ePlayer) const = 0;
+	virtual void AI_City_ChangeNumPlotsAcquiredByOtherPlayer(CvCity* city, PlayerTypes ePlayer, int iChange) = 0;
+
 	virtual OperationSlot PeekAtNextUnitToBuildForOperationSlot(int iAreaID) = 0;
 	virtual OperationSlot CityCommitToBuildUnitForOperationSlot(int iAreaID, int iTurns, CvCity* pCity) = 0;
 	virtual void CityUncommitToBuildUnitForOperationSlot(OperationSlot thisSlot) = 0;

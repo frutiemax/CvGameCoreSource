@@ -664,6 +664,42 @@ int CvPlayerAI::AI_plotTargetMissionAIs(CvPlot* pPlot, MissionAITypes eMissionAI
 	return iCount;
 }
 
+void CvPlayerAI::AI_City_doTurn(CvCity* city)
+{
+	CvCityAI* cityAI = dynamic_cast<CvCityAI*>(city);
+	cityAI->AI_doTurn();
+}
+
+void CvPlayerAI::AI_City_chooseProduction(CvCity* city, bool bInterruptWonders)
+{
+	CvCityAI* cityAI = dynamic_cast<CvCityAI*>(city);
+	cityAI->AI_chooseProduction(bInterruptWonders);
+}
+
+bool CvPlayerAI::AI_City_isChooseProductionDirty(CvCity* city)
+{
+	CvCityAI* cityAI = dynamic_cast<CvCityAI*>(city);
+	return cityAI->AI_isChooseProductionDirty();
+}
+
+void CvPlayerAI::AI_City_setChooseProductionDirty(CvCity* city, bool bNewValue)
+{
+	CvCityAI* cityAI = dynamic_cast<CvCityAI*>(city);
+	cityAI->AI_setChooseProductionDirty(bNewValue);
+}
+
+int CvPlayerAI::AI_City_GetNumPlotsAcquiredByOtherPlayer(CvCity* city, PlayerTypes ePlayer) const
+{
+	CvCityAI* cityAI = dynamic_cast<CvCityAI*>(city);
+	return cityAI->AI_GetNumPlotsAcquiredByOtherPlayer(ePlayer);
+}
+
+void CvPlayerAI::AI_City_ChangeNumPlotsAcquiredByOtherPlayer(CvCity* city, PlayerTypes ePlayer, int iChange)
+{
+	CvCityAI* cityAI = dynamic_cast<CvCityAI*>(city);
+	cityAI->AI_ChangeNumPlotsAcquiredByOtherPlayer(ePlayer, iChange);
+}
+
 // Protected Functions...
 
 void CvPlayerAI::AI_doResearch()

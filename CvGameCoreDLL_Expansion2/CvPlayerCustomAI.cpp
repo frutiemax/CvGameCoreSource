@@ -68,6 +68,32 @@ bool CvPlayerCustomAI::AI_captureUnit(UnitTypes eUnit, CvPlot* pPlot)
     return false;
 }
 
+void CvPlayerCustomAI::AI_City_doTurn(CvCity* city)
+{
+}
+
+void CvPlayerCustomAI::AI_City_chooseProduction(CvCity* city, bool bInterruptWonders)
+{
+}
+
+bool CvPlayerCustomAI::AI_City_isChooseProductionDirty(CvCity* city)
+{
+    return false;
+}
+
+void CvPlayerCustomAI::AI_City_setChooseProductionDirty(CvCity* city, bool bNewValue)
+{
+}
+
+int CvPlayerCustomAI::AI_City_GetNumPlotsAcquiredByOtherPlayer(CvCity* city, PlayerTypes ePlayer) const
+{
+    return 0;
+}
+
+void CvPlayerCustomAI::AI_City_ChangeNumPlotsAcquiredByOtherPlayer(CvCity* city, PlayerTypes ePlayer, int iChange)
+{
+}
+
 OperationSlot CvPlayerCustomAI::PeekAtNextUnitToBuildForOperationSlot(int iAreaID)
 {
     return OperationSlot();

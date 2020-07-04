@@ -64,6 +64,13 @@ public:
 
 	int AI_plotTargetMissionAIs(CvPlot* pPlot, MissionAITypes eMissionAI, int iRange = 0);
 
+	void AI_City_doTurn(CvCity* city);
+	void AI_City_chooseProduction(CvCity* city, bool bInterruptWonders);
+	bool AI_City_isChooseProductionDirty(CvCity* city);
+	void AI_City_setChooseProductionDirty(CvCity* city, bool bNewValue);
+	int AI_City_GetNumPlotsAcquiredByOtherPlayer(CvCity* city, PlayerTypes ePlayer) const;
+	void AI_City_ChangeNumPlotsAcquiredByOtherPlayer(CvCity* city, PlayerTypes ePlayer, int iChange);
+
 	virtual void AI_launch(VictoryTypes eVictory);
 
 	void ProcessGreatPeople(void);
