@@ -2725,7 +2725,7 @@ int CvLuaCity::lGetHappiness(lua_State* L)
 {
 	CvCity* pkCity = GetInstance(L);
 
-	CvPlayerAI& kPlayer = GET_PLAYER(pkCity->getOwner());
+	CvPlayer& kPlayer = GET_PLAYER(pkCity->getOwner());
 
 	const int numPolicyInfos = GC.getNumPolicyInfos();
 	const int numBuildingInfos = GC.getNumBuildingInfos();

@@ -83,7 +83,7 @@ void CvCityAI::AI_doTurn()
 void CvCityAI::AI_chooseProduction(bool bInterruptWonders)
 {
 	VALIDATE_OBJECT
-	CvPlayerAI& kOwner = GET_PLAYER(getOwner());
+	CvPlayer& kOwner = GET_PLAYER(getOwner());
 	CvCitySpecializationAI* pSpecializationAI = kOwner.GetCitySpecializationAI();
 	bool bBuildWonder = false;
 

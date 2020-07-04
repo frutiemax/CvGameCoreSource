@@ -8,7 +8,7 @@
 //	---------------------------------------------------------------------------
 void CvUnitMovement::GetCostsForMove(const CvUnit* pUnit, const CvPlot* pFromPlot, const CvPlot* pToPlot, int iBaseMoves, int& iRegularCost, int& iRouteCost, int& iRouteFlatCost)
 {
-	CvPlayerAI& kPlayer = GET_PLAYER(pUnit->getOwner());
+	CvPlayer& kPlayer = GET_PLAYER(pUnit->getOwner());
 	CvPlayerTraits* pTraits = kPlayer.GetPlayerTraits();
 	bool bFasterAlongRiver = pTraits->IsFasterAlongRiver();
 	bool bFasterInHills = pTraits->IsFasterInHills();

@@ -294,7 +294,7 @@ void CvCity::init(int iID, PlayerTypes eOwner, int iX, int iY, bool bBumpUnits, 
 	// Init saved data
 	reset(iID, eOwner, pPlot->getX(), pPlot->getY());
 
-	CvPlayerAI& owningPlayer = GET_PLAYER(getOwner());
+	CvPlayer& owningPlayer = GET_PLAYER(getOwner());
 
 	//--------------------------------
 	// Init non-saved data
@@ -3539,7 +3539,7 @@ int CvCity::getProductionExperience(UnitTypes eUnit)
 	VALIDATE_OBJECT
 	int iExperience;
 
-	CvPlayerAI& kOwner = GET_PLAYER(getOwner());
+	CvPlayer& kOwner = GET_PLAYER(getOwner());
 
 	iExperience = getFreeExperience();
 	iExperience += kOwner.getFreeExperience();
@@ -4967,7 +4967,7 @@ int CvCity::getProductionModifier(UnitTypes eUnit, CvString* toolTipSink) const
 		return 0;
 	}
 
-	CvPlayerAI& thisPlayer = GET_PLAYER(getOwner());
+	CvPlayer& thisPlayer = GET_PLAYER(getOwner());
 
 	int iMultiplier = getGeneralProductionModifiers(toolTipSink);
 
@@ -6484,7 +6484,7 @@ bool CvCity::IsOriginalCapital() const
 {
 	VALIDATE_OBJECT
 
-	CvPlayerAI& kPlayer = GET_PLAYER(m_eOriginalOwner);
+	CvPlayer& kPlayer = GET_PLAYER(m_eOriginalOwner);
 	if (getX() == kPlayer.GetOriginalCapitalX() && getY() == kPlayer.GetOriginalCapitalY())
 	{
 		return true;
@@ -6503,7 +6503,7 @@ bool CvCity::IsOriginalMajorCapital() const
 	for(int iPlayerLoop = 0; iPlayerLoop < MAX_MAJOR_CIVS; iPlayerLoop++)
 	{
 		ePlayer = (PlayerTypes) iPlayerLoop;
-		CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+		CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 		if (getX() == kPlayer.GetOriginalCapitalX() && getY() == kPlayer.GetOriginalCapitalY())
 		{
 			return true;
@@ -7397,7 +7397,7 @@ void CvCity::DoJONSCultureLevelIncrease()
 	{
 		if(GC.getLogging() && GC.getAILogging())
 		{
-			CvPlayerAI& kOwner = GET_PLAYER(getOwner());
+			CvPlayer& kOwner = GET_PLAYER(getOwner());
 			CvString playerName;
 			FILogFile* pLog;
 			CvString strBaseString;
@@ -10992,7 +10992,7 @@ void CvCity::BuyPlot(int iPlotX, int iPlotY)
 
 	if(GC.getLogging() && GC.getAILogging())
 	{
-		CvPlayerAI& kOwner = GET_PLAYER(getOwner());
+		CvPlayer& kOwner = GET_PLAYER(getOwner());
 		CvString playerName;
 		FILogFile* pLog;
 		CvString strBaseString;
@@ -11418,7 +11418,7 @@ void CvCity::popOrder(int iNum, bool bFinish, bool bChoose)
 {
 	VALIDATE_OBJECT
 
-	CvPlayerAI& kOwner = GET_PLAYER(getOwner());	//Used often later on
+	CvPlayer& kOwner = GET_PLAYER(getOwner());	//Used often later on
 
 	OrderData* pOrderNode;
 	SpecialistTypes eSpecialist;
@@ -12010,7 +12010,7 @@ bool CvCity::CreateBuilding(BuildingTypes eBuildingType)
 
 	const BuildingClassTypes eBuildingClass = (BuildingClassTypes)pkBuildingInfo->GetBuildingClassType();
 
-	CvPlayerAI& kPlayer = GET_PLAYER(getOwner());
+	CvPlayer& kPlayer = GET_PLAYER(getOwner());
 
 	if(kPlayer.isBuildingClassMaxedOut(eBuildingClass, 0))
 	{
@@ -12768,7 +12768,7 @@ bool CvCity::doCheckProduction()
 	int iMaxedBuildingGoldPercent = GC.getMAXED_BUILDING_GOLD_PERCENT();
 	int iMaxedProjectGoldPercent = GC.getMAXED_PROJECT_GOLD_PERCENT();
 
-	CvPlayerAI& thisPlayer = GET_PLAYER(getOwner());
+	CvPlayer& thisPlayer = GET_PLAYER(getOwner());
 
 	int iNumUnitInfos = GC.getNumUnitInfos();
 	{
@@ -14943,7 +14943,7 @@ bool CvCity::CommitToBuildingUnitForOperation()
 	UnitTypes eBestUnit;
 	UnitAITypes eUnitAI;
 
-	CvPlayerAI& kPlayer = GET_PLAYER(getOwner());
+	CvPlayer& kPlayer = GET_PLAYER(getOwner());
 
 	OperationSlot thisOperationSlot = kPlayer.PeekAtNextUnitToBuildForOperationSlot(getArea());
 
@@ -14991,7 +14991,7 @@ UnitTypes CvCity::GetUnitForOperation()
 	UnitTypes eBestUnit;
 	UnitAITypes eUnitAI;
 
-	CvPlayerAI& kPlayer = GET_PLAYER(getOwner());
+	CvPlayer& kPlayer = GET_PLAYER(getOwner());
 
 	OperationSlot thisOperationSlot = kPlayer.PeekAtNextUnitToBuildForOperationSlot(getArea());
 

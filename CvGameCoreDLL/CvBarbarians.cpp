@@ -503,7 +503,7 @@ UnitTypes CvBarbarians::GetRandomBarbarianUnitType(CvArea* pArea, UnitAITypes eU
 	int iBestValue = 0;
 	int iValue = 0;
 
-	CvPlayerAI& kBarbarianPlayer = GET_PLAYER(BARBARIAN_PLAYER);
+	CvPlayer& kBarbarianPlayer = GET_PLAYER(BARBARIAN_PLAYER);
 
 	CvGame &kGame = GC.getGame();
 

@@ -2652,8 +2652,8 @@ void CvGameDeals::DoEndTradedItem(CvTradedItem* pItem, PlayerTypes eToPlayer, bo
 
 	PlayerTypes eFromPlayer = pItem->m_eFromPlayer;
 
-	CvPlayerAI& fromPlayer = GET_PLAYER(eFromPlayer);
-	CvPlayerAI& toPlayer = GET_PLAYER(eToPlayer);
+	CvPlayer& fromPlayer = GET_PLAYER(eFromPlayer);
+	CvPlayer& toPlayer = GET_PLAYER(eToPlayer);
 
 	TeamTypes eFromTeam = fromPlayer.getTeam();
 	TeamTypes eToTeam = toPlayer.getTeam();
@@ -2917,8 +2917,8 @@ void CvGameDeals::PrepareRenewDeal(CvDeal* pOldDeal, const CvDeal* pNewDeal)
 	CvAssertMsg(pOldDeal->m_eFromPlayer == pNewDeal->m_eFromPlayer, "Deal is not to the same from players");
 	CvAssertMsg(pOldDeal->m_eToPlayer == pNewDeal->m_eToPlayer, "Deal is not to the same to players");
 
-	CvPlayerAI& fromPlayer = GET_PLAYER(pOldDeal->m_eFromPlayer);
-	CvPlayerAI& toPlayer = GET_PLAYER(pOldDeal->m_eToPlayer);
+	CvPlayer& fromPlayer = GET_PLAYER(pOldDeal->m_eFromPlayer);
+	CvPlayer& toPlayer = GET_PLAYER(pOldDeal->m_eToPlayer);
 
 	TradedItemList::iterator oldDealItemIter;
 	for(oldDealItemIter = pOldDeal->m_TradedItems.begin(); oldDealItemIter != pOldDeal->m_TradedItems.end(); ++oldDealItemIter)

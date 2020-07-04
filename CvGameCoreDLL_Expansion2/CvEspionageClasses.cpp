@@ -447,8 +447,8 @@ void CvPlayerEspionage::ProcessSpy(uint uiSpyIndex)
 				{
 					pCityEspionage->SetSpyResult(ePlayer, SPY_RESULT_KILLED);
 
-					CvPlayerAI& kCityOwner = GET_PLAYER(eCityOwner);
-					CvPlayerAI& kSpyOwner = GET_PLAYER(ePlayer);
+					CvPlayer& kCityOwner = GET_PLAYER(eCityOwner);
+					CvPlayer& kSpyOwner = GET_PLAYER(ePlayer);
 
 					if(	strcmp(kCityOwner.getCivilizationTypeKey(), "CIVILIZATION_RUSSIA") == 0 &&
 						strcmp(kSpyOwner.getCivilizationTypeKey(), "CIVILIZATION_ENGLAND") == 0)

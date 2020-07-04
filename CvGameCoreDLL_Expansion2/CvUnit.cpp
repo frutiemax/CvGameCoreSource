@@ -1495,7 +1495,7 @@ bool CvUnit::getCaptureDefinition(CvUnitCaptureDefinition* pkCaptureDef, PlayerT
 		CvPlot* pkPlot = GC.getMap().plot(kCaptureDef.iX , kCaptureDef.iY);
 		if(pkPlot)
 		{
-			CvPlayerAI& kCapturingPlayer = GET_PLAYER(kCaptureDef.eCapturingPlayer);
+			CvPlayer& kCapturingPlayer = GET_PLAYER(kCaptureDef.eCapturingPlayer);
 			if(kCapturingPlayer.isHuman() || kCapturingPlayer.AI_captureUnit(kCaptureDef.eCaptureUnitType, pkPlot) || 0 == GC.getAI_CAN_DISBAND_UNITS())
 			{
 				pkCapturedUnit = kCapturingPlayer.initUnit(kCaptureDef.eCaptureUnitType, kCaptureDef.iX, kCaptureDef.iY);
@@ -5156,7 +5156,7 @@ bool CvUnit::airlift(int iX, int iY)
 
 
 	//Here's Looking at You, Kid
-	CvPlayerAI& kActivePlayer = GET_PLAYER(GC.getGame().getActivePlayer());
+	CvPlayer& kActivePlayer = GET_PLAYER(GC.getGame().getActivePlayer());
 	if(pTargetPlot != NULL && getOwner() == kActivePlayer.GetID() && kActivePlayer.isHuman())
 	{
 		//Easy checks out of the way, now for the ugly ones.
@@ -5172,7 +5172,7 @@ bool CvUnit::airlift(int iX, int iY)
 				pTargetCity->IsOriginalCapital())
 			{
 				const PlayerTypes eOriginalOwner = pTargetCity->getOriginalOwner();
-				CvPlayerAI& kOriginalPlayer = GET_PLAYER(eOriginalOwner);
+				CvPlayer& kOriginalPlayer = GET_PLAYER(eOriginalOwner);
 				if(strcmp(kOriginalPlayer.getCivilizationTypeKey(), "CIVILIZATION_PORTUGAL") == 0)
 				{
 					gDLL->UnlockAchievement(ACHIEVEMENT_XP2_22);
@@ -6473,8 +6473,8 @@ bool CvUnit::found()
 		DLLUI->lookAt(pDllPlot.get(), CAMERALOOKAT_NORMAL);
 	}
 
-	CvPlayerAI& kPlayer = GET_PLAYER(getOwner());
-	CvPlayerAI& kActivePlayer = GET_PLAYER(eActivePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(getOwner());
+	CvPlayer& kActivePlayer = GET_PLAYER(eActivePlayer);
 
 	kPlayer.found(getX(), getY());
 
@@ -6658,7 +6658,7 @@ bool CvUnit::DoFoundReligion()
 	{
 		if(CanFoundReligion(pkPlot))
 		{
-			CvPlayerAI& kOwner = GET_PLAYER(getOwner());
+			CvPlayer& kOwner = GET_PLAYER(getOwner());
 			if(kOwner.isHuman())
 			{
 				CvAssertMsg(pkCity != NULL, "No City??");
@@ -6794,7 +6794,7 @@ bool CvUnit::DoEnhanceReligion()
 	{
 		if(CanEnhanceReligion(pkPlot))
 		{
-			CvPlayerAI& kOwner = GET_PLAYER(getOwner());
+			CvPlayer& kOwner = GET_PLAYER(getOwner());
 			if(kOwner.isHuman())
 			{
 				CvAssertMsg(pkCity != NULL, "No City??");
@@ -7061,7 +7061,7 @@ bool CvUnit::DoRemoveHeresy()
 			//Achievements
 			if(getOwner() == GC.getGame().getActivePlayer())
 			{
-				CvPlayerAI& kPlayer = GET_PLAYER(getOwner());
+				CvPlayer& kPlayer = GET_PLAYER(getOwner());
 				if(strcmp(kPlayer.getCivilizationTypeKey(), "CIVILIZATION_SPAIN") == 0)
 				{
 					gDLL->UnlockAchievement(ACHIEVEMENT_XP1_24);
@@ -7921,7 +7921,7 @@ bool CvUnit::DoCultureBomb()
 		// Cooldown
 		int iCooldown = /*10*/ GC.getCULTURE_BOMB_COOLDOWN();
 
-		CvPlayerAI& kPlayer = GET_PLAYER(getOwner());
+		CvPlayer& kPlayer = GET_PLAYER(getOwner());
 		kPlayer.changeCultureBombTimer(iCooldown);
 
 		PerformCultureBomb(pkUnitEntry->GetCultureBombRadius());
@@ -7950,7 +7950,7 @@ void CvUnit::PerformCultureBomb(int iRadius)
 {
 	CvPlot* pThisPlot = plot();
 
-	CvPlayerAI& kPlayer = GET_PLAYER(getOwner());
+	CvPlayer& kPlayer = GET_PLAYER(getOwner());
 
 	// Figure out which City gets ownership of these plots
 	int iBestCityID = -1;
@@ -8114,7 +8114,7 @@ bool CvUnit::goldenAge()
 
 	int iGoldenAgeTurns = GetGoldenAgeTurns();
 
-	CvPlayerAI& kPlayer = GET_PLAYER(getOwner());
+	CvPlayer& kPlayer = GET_PLAYER(getOwner());
 
 	kPlayer.changeGoldenAgeTurns(iGoldenAgeTurns);
 	kPlayer.changeNumUnitGoldenAges(1);
@@ -8144,7 +8144,7 @@ int CvUnit::GetGoldenAgeTurns() const
 	if(iGoldenAgeTurns == 0)
 		return 0;
 
-	CvPlayerAI& kPlayer = GET_PLAYER(getOwner());
+	CvPlayer& kPlayer = GET_PLAYER(getOwner());
 
 	int iMinTurns = /*3*/ GC.getMIN_UNIT_GOLDEN_AGE_TURNS();
 	if(iGoldenAgeTurns < iMinTurns)
@@ -8197,7 +8197,7 @@ int CvUnit::getGivePoliciesCulture()
 	CvPlot* pPlot = plot();
 	if(canGivePolicies(pPlot))
 	{
-		CvPlayerAI& kPlayer = GET_PLAYER(getOwner());
+		CvPlayer& kPlayer = GET_PLAYER(getOwner());
 
 		// Culture boost based on previous turns
 		int iPreviousTurnsToCount = getUnitInfo().GetBaseCultureTurnsToCount();
@@ -8224,7 +8224,7 @@ bool CvUnit::givePolicies()
 	{
 		return false;
 	}
-	CvPlayerAI& kPlayer = GET_PLAYER(getOwner());
+	CvPlayer& kPlayer = GET_PLAYER(getOwner());
 
 	// Culture boost based on previous turns
 	int iCultureBonus = getGivePoliciesCulture();
@@ -8973,7 +8973,7 @@ bool CvUnit::CanUpgradeRightNow(bool bOnlyTestVisible) const
 		if(pPlot->getOwner() != getOwner())
 			return false;
 
-		CvPlayerAI& kPlayer = GET_PLAYER(getOwner());
+		CvPlayer& kPlayer = GET_PLAYER(getOwner());
 
 		// Player must have enough Gold
 		if(kPlayer.GetTreasury()->GetGold() < upgradePrice(eUpgradeUnitType))
@@ -9059,7 +9059,7 @@ int CvUnit::upgradePrice(UnitTypes eUnit) const
 
 	iPrice = /*10*/ GC.getBASE_UNIT_UPGRADE_COST();
 
-	CvPlayerAI& kPlayer = GET_PLAYER(getOwner());
+	CvPlayer& kPlayer = GET_PLAYER(getOwner());
 
 	iPrice += (std::max(0, (kPlayer.getProductionNeeded(eUnit) - kPlayer.getProductionNeeded(getUnitType()))) * /*2*/ GC.getUNIT_UPGRADE_COST_PER_PRODUCTION());
 
@@ -9114,7 +9114,7 @@ CvUnit* CvUnit::DoUpgrade()
 
 	// Gold Cost
 	int iUpgradeCost = upgradePrice(eUnitType);
-	CvPlayerAI& thisPlayer = GET_PLAYER(getOwner());
+	CvPlayer& thisPlayer = GET_PLAYER(getOwner());
 	thisPlayer.GetTreasury()->LogExpenditure(getUnitInfo().GetText(), iUpgradeCost, 3);
 	thisPlayer.GetTreasury()->ChangeGold(-iUpgradeCost);
 
@@ -9533,7 +9533,7 @@ int CvUnit::workRate(bool bMax, BuildTypes /*eBuild*/) const
 
 	iRate = m_pUnitInfo->GetWorkRate();
 
-	CvPlayerAI& kPlayer = GET_PLAYER(getOwner());
+	CvPlayer& kPlayer = GET_PLAYER(getOwner());
 
 	iRate *= std::max(0, (kPlayer.getWorkerSpeedModifier() + kPlayer.GetPlayerTraits()->GetWorkerSpeedModifier() + 100));
 	iRate /= 100;
@@ -9770,7 +9770,7 @@ int CvUnit::GetStrategicResourceCombatPenalty() const
 	if(isBarbarian())
 		return iPenalty;
 
-	CvPlayerAI& kPlayer = GET_PLAYER(getOwner());
+	CvPlayer& kPlayer = GET_PLAYER(getOwner());
 
 	// Loop through all resources
 	ResourceTypes eResource;
@@ -9877,7 +9877,7 @@ int CvUnit::GetGenericMaxStrengthModifier(const CvUnit* pOtherUnit, const CvPlot
 	iTempModifier = getExtraCombatPercent();
 	iModifier += iTempModifier;
 
-	CvPlayerAI& kPlayer = GET_PLAYER(getOwner());
+	CvPlayer& kPlayer = GET_PLAYER(getOwner());
 	CvGameReligions* pReligions = GC.getGame().GetGameReligions();
 	ReligionTypes eFoundedReligion = pReligions->GetFounderBenefitsReligion(kPlayer.GetID());
 
@@ -10467,7 +10467,7 @@ int CvUnit::GetMaxRangedCombatStrength(const CvUnit* pOtherUnit, const CvCity* p
 
 	int iTempModifier;
 
-	CvPlayerAI& kPlayer = GET_PLAYER(getOwner());
+	CvPlayer& kPlayer = GET_PLAYER(getOwner());
 	CvPlayerTraits* pTraits = kPlayer.GetPlayerTraits();
 	CvGameReligions* pReligions = GC.getGame().GetGameReligions();
 	ReligionTypes eFoundedReligion = pReligions->GetFounderBenefitsReligion(kPlayer.GetID());
@@ -10853,7 +10853,7 @@ int CvUnit::GetRangeCombatDamage(const CvUnit* pDefender, CvCity* pCity, bool bI
 	int iAttackerStrength = GetMaxRangedCombatStrength(pDefender, pCity, true, /*bForRangedAttack*/ true);
 	int iDefenderStrength;
 
-	CvPlayerAI& kPlayer = GET_PLAYER(getOwner());
+	CvPlayer& kPlayer = GET_PLAYER(getOwner());
 
 	// Unit is Defender
 	if(pCity == NULL)
@@ -11030,7 +11030,7 @@ CvUnit* CvUnit::GetBestInterceptor(const CvPlot& interceptPlot, CvUnit* pkDefend
 	// Loop through all players' Units (that we're at war with) to see if they can intercept
 	for(iI = 0; iI < MAX_PLAYERS; iI++)
 	{
-		CvPlayerAI& kLoopPlayer = GET_PLAYER((PlayerTypes)iI);
+		CvPlayer& kLoopPlayer = GET_PLAYER((PlayerTypes)iI);
 		if(kLoopPlayer.isAlive())
 		{
 			TeamTypes eLoopTeam = kLoopPlayer.getTeam();
@@ -11095,7 +11095,7 @@ int CvUnit::GetInterceptorCount(const CvPlot& interceptPlot, CvUnit* pkDefender 
 	// Loop through all players' Units (that we're at war with) to see if they can intercept
 	for(iI = 0; iI < MAX_PLAYERS; iI++)
 	{
-		CvPlayerAI& kLoopPlayer = GET_PLAYER((PlayerTypes)iI);
+		CvPlayer& kLoopPlayer = GET_PLAYER((PlayerTypes)iI);
 		if(kLoopPlayer.isAlive())
 		{
 			TeamTypes eLoopTeam = kLoopPlayer.getTeam();
@@ -12697,7 +12697,7 @@ void CvUnit::setXY(int iX, int iY, bool bGroup, bool bUpdate, bool bShow, bool b
 	TeamTypes activeTeam = GC.getGame().getActiveTeam();
 	TeamTypes eOurTeam = getTeam();
 
-	CvPlayerAI& kPlayer = GET_PLAYER(getOwner());
+	CvPlayer& kPlayer = GET_PLAYER(getOwner());
 
 	bool bOwnerIsActivePlayer = GC.getGame().getActivePlayer() == getOwner();
 	// Delay any popups that might be caused by our movement (goody huts, natural wonders, etc.) so the unit movement event gets sent before the popup event.
@@ -13738,7 +13738,7 @@ void CvUnit::setDamage(int iNewValue, PlayerTypes ePlayer, float fAdditionalText
 	{
 		CvGame& game = GC.getGame();
 		const PlayerTypes eActivePlayer = game.getActivePlayer();
-		CvPlayerAI& activePlayer = GET_PLAYER(eActivePlayer);
+		CvPlayer& activePlayer = GET_PLAYER(eActivePlayer);
 		if(m_iLastGameTurnAtFullHealth != -1 && m_iLastGameTurnAtFullHealth == game.getGameTurn() && getOwner() == eActivePlayer && activePlayer.isHuman())
 		{
 			CvUnitEntry* pUnitInfo = GC.getUnitInfo(getUnitType());

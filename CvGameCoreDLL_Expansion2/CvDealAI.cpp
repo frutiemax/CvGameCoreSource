@@ -1408,7 +1408,7 @@ int CvDealAI::GetCityValue(int iX, int iY, bool bFromMe, PlayerTypes eOtherPlaye
 		}	// END bFromMe
 		else
 		{
-			CvPlayerAI& theOtherPlayer = GET_PLAYER(eOtherPlayer);
+			CvPlayer& theOtherPlayer = GET_PLAYER(eOtherPlayer);
 			if(!GET_TEAM(GetTeam()).isAtWar(theOtherPlayer.getTeam()))
 			{
 				if(theOtherPlayer.isHuman())  // he is obviously trying to trick us

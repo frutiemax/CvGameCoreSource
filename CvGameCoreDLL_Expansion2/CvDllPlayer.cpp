@@ -18,7 +18,7 @@
 #include "CvMinorCivAI.h"
 
 
-CvDllPlayer::CvDllPlayer(CvPlayerAI* pPlayer)
+CvDllPlayer::CvDllPlayer(CvPlayer* pPlayer)
 	: m_pPlayer(pPlayer)
 	, m_uiRefCount(1)
 {
@@ -86,7 +86,7 @@ void* CvDllPlayer::operator new(size_t bytes)
 	return CvDllGameContext::Allocate(bytes);
 }
 //------------------------------------------------------------------------------
-CvPlayerAI* CvDllPlayer::GetInstance()
+CvPlayer* CvDllPlayer::GetInstance()
 {
 	return m_pPlayer;
 }

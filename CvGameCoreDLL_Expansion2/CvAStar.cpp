@@ -2218,7 +2218,7 @@ int RouteGetExtraChild(CvAStarNode* node, int iIndex, int& iX, int& iY, CvAStar*
 	iY = -1;
 
 	PlayerTypes ePlayer = ((PlayerTypes)(finder->GetInfo() & 0xFF));
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 	TeamTypes eTeam = kPlayer.getTeam();
 	CvPlot* pPlot = GC.getMap().plotCheckInvalid(node->m_iX, node->m_iY);
 
@@ -2384,7 +2384,7 @@ int RouteValid(CvAStarNode* parent, CvAStarNode* node, int data, const void* poi
 int RouteGetNumExtraChildren(CvAStarNode* node,  CvAStar* finder)
 {
 	PlayerTypes ePlayer = ((PlayerTypes)(finder->GetInfo() & 0xFF));
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 	TeamTypes eTeam = kPlayer.getTeam();
 	CvPlot* pPlot = GC.getMap().plotCheckInvalid(node->m_iX, node->m_iY);
 

@@ -57,7 +57,7 @@ void CvDllNetMessageHandler::ResponseAdvancedStartAction(PlayerTypes ePlayer, Ad
 //------------------------------------------------------------------------------
 void CvDllNetMessageHandler::ResponseAutoMission(PlayerTypes ePlayer, int iUnitID)
 {
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 	CvUnit* pkUnit = kPlayer.getUnit(iUnitID);
 	if(pkUnit)
 	{
@@ -67,7 +67,7 @@ void CvDllNetMessageHandler::ResponseAutoMission(PlayerTypes ePlayer, int iUnitI
 //------------------------------------------------------------------------------
 void CvDllNetMessageHandler::ResponseBarbarianRansom(PlayerTypes ePlayer, int iOptionChosen, int iUnitID)
 {
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 
 	// Pay ransom
 	if(iOptionChosen == 0)
@@ -93,7 +93,7 @@ void CvDllNetMessageHandler::ResponseBarbarianRansom(PlayerTypes ePlayer, int iO
 //------------------------------------------------------------------------------
 void CvDllNetMessageHandler::ResponseChangeWar(PlayerTypes ePlayer, TeamTypes eRivalTeam, bool bWar)
 {
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 	CvTeam& kTeam = GET_TEAM(kPlayer.getTeam());
 	const TeamTypes eTeam = kPlayer.getTeam();
 
@@ -111,7 +111,7 @@ void CvDllNetMessageHandler::ResponseChangeWar(PlayerTypes ePlayer, TeamTypes eR
 //------------------------------------------------------------------------------
 void CvDllNetMessageHandler::ResponseIgnoreWarning(PlayerTypes ePlayer, TeamTypes eRivalTeam)
 {
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 	CvTeam& kTeam = GET_TEAM(kPlayer.getTeam());
 	const TeamTypes eTeam = kPlayer.getTeam();
 	FAssert(eTeam != eRivalTeam);
@@ -121,7 +121,7 @@ void CvDllNetMessageHandler::ResponseIgnoreWarning(PlayerTypes ePlayer, TeamType
 //------------------------------------------------------------------------------
 void CvDllNetMessageHandler::ResponseCityBuyPlot(PlayerTypes ePlayer, int iCityID, int iX, int iY)
 {
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 	CvCity* pkCity = kPlayer.getCity(iCityID);
 	if(pkCity != NULL)
 	{
@@ -153,7 +153,7 @@ void CvDllNetMessageHandler::ResponseCityBuyPlot(PlayerTypes ePlayer, int iCityI
 //------------------------------------------------------------------------------
 void CvDllNetMessageHandler::ResponseCityDoTask(PlayerTypes ePlayer, int iCityID, TaskTypes eTask, int iData1, int iData2, bool bOption, bool bAlt, bool bShift, bool bCtrl)
 {
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 	CvCity* pkCity = kPlayer.getCity(iCityID);
 
 	if(pkCity != NULL)
@@ -164,7 +164,7 @@ void CvDllNetMessageHandler::ResponseCityDoTask(PlayerTypes ePlayer, int iCityID
 //------------------------------------------------------------------------------
 void CvDllNetMessageHandler::ResponseCityPopOrder(PlayerTypes ePlayer, int iCityID, int iNum)
 {
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 	CvCity* pkCity = kPlayer.getCity(iCityID);
 	if(pkCity != NULL)
 	{
@@ -179,7 +179,7 @@ void CvDllNetMessageHandler::ResponseCityPurchase(PlayerTypes ePlayer, int iCity
 //------------------------------------------------------------------------------
 void CvDllNetMessageHandler::ResponseCityPurchase(PlayerTypes ePlayer, int iCityID, UnitTypes eUnitType, BuildingTypes eBuildingType, ProjectTypes eProjectType, int ePurchaseYield)
 {
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 	CvCity* pkCity = kPlayer.getCity(iCityID);
 	if(pkCity && ePurchaseYield >= -1 && ePurchaseYield < NUM_YIELD_TYPES)
 	{
@@ -189,7 +189,7 @@ void CvDllNetMessageHandler::ResponseCityPurchase(PlayerTypes ePlayer, int iCity
 //------------------------------------------------------------------------------
 void CvDllNetMessageHandler::ResponseCityPushOrder(PlayerTypes ePlayer, int iCityID, OrderTypes eOrder, int iData, bool bAlt, bool bShift, bool bCtrl)
 {
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 	CvCity* pkCity = kPlayer.getCity(iCityID);
 	if(pkCity != NULL)
 	{
@@ -199,7 +199,7 @@ void CvDllNetMessageHandler::ResponseCityPushOrder(PlayerTypes ePlayer, int iCit
 //------------------------------------------------------------------------------
 void CvDllNetMessageHandler::ResponseCitySwapOrder(PlayerTypes ePlayer, int iCityID, int iNum)
 {
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 	CvCity* pkCity = kPlayer.getCity(iCityID);
 	if(pkCity != NULL)
 	{
@@ -214,7 +214,7 @@ void CvDllNetMessageHandler::ResponseChooseElection(PlayerTypes ePlayer, int iSe
 //------------------------------------------------------------------------------
 void CvDllNetMessageHandler::ResponseDestroyUnit(PlayerTypes ePlayer, int iUnitID)
 {
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 	CvUnit* pkUnit = kPlayer.getUnit(iUnitID);
 
 	if(pkUnit)
@@ -238,7 +238,7 @@ void CvDllNetMessageHandler::ResponseDiploVote(PlayerTypes ePlayer, PlayerTypes 
 //------------------------------------------------------------------------------
 void CvDllNetMessageHandler::ResponseDoCommand(PlayerTypes ePlayer, int iUnitID, CommandTypes eCommand, int iData1, int iData2, bool bAlt)
 {
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 	CvUnit* pkUnit = kPlayer.getUnit(iUnitID);
 
 	if(pkUnit != NULL)
@@ -301,7 +301,7 @@ void CvDllNetMessageHandler::ResponseFoundPantheon(PlayerTypes ePlayer, BeliefTy
 		}
 		else if (pEntry->IsReformationBelief())
 		{
-			CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+			CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 			if (!pkGameReligions->HasAddedReformationBelief(ePlayer) && kPlayer.GetReligions()->HasCreatedReligion())
 			{
 				ReligionTypes eReligion = kPlayer.GetReligions()->GetReligionCreatedByPlayer();
@@ -327,7 +327,7 @@ void CvDllNetMessageHandler::ResponseFoundReligion(PlayerTypes ePlayer, Religion
 			CvGameReligions::NotifyPlayer(ePlayer, eResult);
 			// We don't want them to lose the opportunity to found the religion, and the Great Prophet is already gone so just repost the notification
 			// If someone beat them to the last religion, well... tough luck.
-			CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+			CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 			if(kPlayer.isHuman() && eResult != CvGameReligions::FOUNDING_NO_RELIGIONS_AVAILABLE)
 			{
 				CvNotifications* pNotifications = kPlayer.GetNotifications();
@@ -356,7 +356,7 @@ void CvDllNetMessageHandler::ResponseEnhanceReligion(PlayerTypes ePlayer, Religi
 		CvGameReligions::NotifyPlayer(ePlayer, eResult);
 		// We don't want them to lose the opportunity to enhance the religion, and the Great Prophet is already gone so just repost the notification
 		CvCity* pkCity = GC.getMap().plot(iCityX, iCityY)->getPlotCity();
-		CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+		CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 		if(kPlayer.isHuman() && eResult != CvGameReligions::FOUNDING_NO_RELIGIONS_AVAILABLE && pkCity)
 		{
 			CvNotifications* pNotifications = kPlayer.GetNotifications();
@@ -373,7 +373,7 @@ void CvDllNetMessageHandler::ResponseEnhanceReligion(PlayerTypes ePlayer, Religi
 //------------------------------------------------------------------------------
 void CvDllNetMessageHandler::ResponseMoveSpy(PlayerTypes ePlayer, int iSpyIndex, int iTargetPlayer, int iTargetCity, bool bAsDiplomat)
 {
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 	CvPlayerEspionage* pPlayerEspionage = kPlayer.GetEspionage();
 
 	if(pPlayerEspionage)
@@ -406,7 +406,7 @@ void CvDllNetMessageHandler::ResponseStageCoup(PlayerTypes eSpyPlayer, int iSpyI
 	CvAssertMsg(eSpyPlayer != NO_PLAYER, "eSpyPlayer invalid");
 	CvAssertMsg(iSpyIndex >= 0, "iSpyIndex invalid");
 
-	CvPlayerAI& kPlayer = GET_PLAYER(eSpyPlayer);
+	CvPlayer& kPlayer = GET_PLAYER(eSpyPlayer);
 	CvPlayerEspionage* pPlayerEspionage = kPlayer.GetEspionage();
 
 	CvAssertMsg(pPlayerEspionage, "pPlayerEspionage is null");
@@ -422,7 +422,7 @@ void CvDllNetMessageHandler::ResponseFaithPurchase(PlayerTypes ePlayer, FaithPur
 	CvAssertMsg(eFaithPurchaseType > -1, "Faith Purchase Type invalid");
 	CvAssertMsg(iFaithPurchaseIndex > -1, "Faith Purchase Index invalid");
 
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 	kPlayer.SetFaithPurchaseType(eFaithPurchaseType);
 	kPlayer.SetFaithPurchaseIndex(iFaithPurchaseIndex);
 }
@@ -574,7 +574,7 @@ void CvDllNetMessageHandler::ResponseGiftUnit(PlayerTypes ePlayer, PlayerTypes e
 //------------------------------------------------------------------------------
 void CvDllNetMessageHandler::ResponseLaunchSpaceship(PlayerTypes ePlayer, VictoryTypes eVictory)
 {
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 	CvTeam& kTeam = GET_TEAM(kPlayer.getTeam());
 
 	if(kTeam.canLaunch(eVictory))
@@ -633,9 +633,9 @@ void CvDllNetMessageHandler::ResponsePlayerDealFinalized(PlayerTypes eFromPlayer
 		Localization::String strMessage;
 		Localization::String strSummary = Localization::Lookup("TXT_KEY_DEAL_EXPIRED");
 
-		CvPlayerAI& kToPlayer = GET_PLAYER(eToPlayer);
-		CvPlayerAI& kFromPlayer = GET_PLAYER(eFromPlayer);
-		CvPlayerAI& kActivePlayer = GET_PLAYER(eActivePlayer);
+		CvPlayer& kToPlayer = GET_PLAYER(eToPlayer);
+		CvPlayer& kFromPlayer = GET_PLAYER(eFromPlayer);
+		CvPlayer& kActivePlayer = GET_PLAYER(eActivePlayer);
 
 		strMessage = Localization::Lookup("TXT_KEY_DEAL_EXPIRED_FROM_YOU");
 		strMessage << kToPlayer.getNickName();
@@ -647,8 +647,8 @@ void CvDllNetMessageHandler::ResponsePlayerDealFinalized(PlayerTypes eFromPlayer
 	}
 	else
 	{
-		CvPlayerAI& kToPlayer = GET_PLAYER(eToPlayer);
-		CvPlayerAI& kFromPlayer = GET_PLAYER(eFromPlayer);
+		CvPlayer& kToPlayer = GET_PLAYER(eToPlayer);
+		CvPlayer& kFromPlayer = GET_PLAYER(eFromPlayer);
 		if(bAccepted)
 		{
 			Localization::String strSummary = Localization::Lookup("TXT_KEY_DEAL_ACCEPTED");
@@ -705,7 +705,7 @@ void CvDllNetMessageHandler::ResponsePushMission(PlayerTypes ePlayer, int iUnitI
 {
 	CvUnit::dispatchingNetMessage(true);
 
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 	CvUnit* pkUnit = kPlayer.getUnit(iUnitID);
 
 	if(pkUnit != NULL)
@@ -718,7 +718,7 @@ void CvDllNetMessageHandler::ResponsePushMission(PlayerTypes ePlayer, int iUnitI
 //------------------------------------------------------------------------------
 void CvDllNetMessageHandler::ResponseGreatPersonChoice(PlayerTypes ePlayer, UnitTypes eGreatPersonUnit)
 {
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 	CvCity* pCity = kPlayer.GetGreatPersonSpawnCity(eGreatPersonUnit);
 	if(pCity)
 	{
@@ -729,7 +729,7 @@ void CvDllNetMessageHandler::ResponseGreatPersonChoice(PlayerTypes ePlayer, Unit
 //------------------------------------------------------------------------------
 void CvDllNetMessageHandler::ResponseMayaBonusChoice(PlayerTypes ePlayer, UnitTypes eGreatPersonUnit)
 {
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 	CvCity* pCity = kPlayer.GetGreatPersonSpawnCity(eGreatPersonUnit);
 	if(pCity)
 	{
@@ -741,7 +741,7 @@ void CvDllNetMessageHandler::ResponseMayaBonusChoice(PlayerTypes ePlayer, UnitTy
 //------------------------------------------------------------------------------
 void CvDllNetMessageHandler::ResponseFaithGreatPersonChoice(PlayerTypes ePlayer, UnitTypes eGreatPersonUnit)
 {
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 	CvCity* pCity = kPlayer.GetGreatPersonSpawnCity(eGreatPersonUnit);
 	if(pCity)
 	{
@@ -752,7 +752,7 @@ void CvDllNetMessageHandler::ResponseFaithGreatPersonChoice(PlayerTypes ePlayer,
 //------------------------------------------------------------------------------
 void CvDllNetMessageHandler::ResponseGoodyChoice(PlayerTypes ePlayer, int iPlotX, int iPlotY, GoodyTypes eGoody, int iUnitID)
 {
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 	CvPlot* pPlot = GC.getMap().plot(iPlotX, iPlotY);
 	CvUnit* pUnit = kPlayer.getUnit(iUnitID);
 	kPlayer.receiveGoody(pPlot, eGoody, pUnit);
@@ -761,19 +761,19 @@ void CvDllNetMessageHandler::ResponseGoodyChoice(PlayerTypes ePlayer, int iPlotX
 //------------------------------------------------------------------------------
 void CvDllNetMessageHandler::ResponseArchaeologyChoice(PlayerTypes ePlayer, ArchaeologyChoiceType eChoice)
 {
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 	kPlayer.GetCulture()->DoArchaeologyChoice(eChoice);
 }
 //------------------------------------------------------------------------------
 void CvDllNetMessageHandler::ResponseIdeologyChoice(PlayerTypes ePlayer, PolicyBranchTypes eChoice)
 {
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 	kPlayer.GetPlayerPolicies()->SetPolicyBranchUnlocked(eChoice, true, false);
 }
 //------------------------------------------------------------------------------
 void CvDllNetMessageHandler::ResponseRenameCity(PlayerTypes ePlayer, int iCityID, const char* szName)
 {
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 	CvCity* pkCity = kPlayer.getCity(iCityID);
 	if(pkCity)
 	{
@@ -784,7 +784,7 @@ void CvDllNetMessageHandler::ResponseRenameCity(PlayerTypes ePlayer, int iCityID
 //------------------------------------------------------------------------------
 void CvDllNetMessageHandler::ResponseRenameUnit(PlayerTypes ePlayer, int iUnitID, const char* szName)
 {
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 	CvUnit* pkUnit = kPlayer.getUnit(iUnitID);
 	if(pkUnit)
 	{
@@ -800,7 +800,7 @@ void CvDllNetMessageHandler::ResponseResearch(PlayerTypes ePlayer, TechTypes eTe
 //------------------------------------------------------------------------------
 void CvDllNetMessageHandler::ResponseResearch(PlayerTypes ePlayer, TechTypes eTech, int iDiscover, PlayerTypes ePlayerToStealFrom, bool bShift)
 {
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 	CvTeam& kTeam = GET_TEAM(kPlayer.getTeam());
 
 	// Free tech
@@ -901,7 +901,7 @@ void CvDllNetMessageHandler::ResponseSwapUnits(PlayerTypes ePlayer, int iUnitID,
 {
 	CvUnit::dispatchingNetMessage(true);
 
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 	CvUnit* pkUnit = kPlayer.getUnit(iUnitID);
 
 	if(pkUnit != NULL)
@@ -949,7 +949,7 @@ void CvDllNetMessageHandler::ResponseUpdateCityCitizens(PlayerTypes ePlayer, int
 //------------------------------------------------------------------------------
 void CvDllNetMessageHandler::ResponseUpdatePolicies(PlayerTypes ePlayer, bool bNOTPolicyBranch, int iPolicyID, bool bValue)
 {
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 
 	// Policy Update
 	if(bNOTPolicyBranch)

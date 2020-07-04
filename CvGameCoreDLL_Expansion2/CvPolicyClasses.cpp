@@ -3145,7 +3145,7 @@ void CvPlayerPolicies::SetPolicyBranchUnlocked(PolicyBranchTypes eBranchType, bo
 
 					for(int iNotifyLoop = 0; iNotifyLoop < MAX_MAJOR_CIVS; ++iNotifyLoop){
 						PlayerTypes eNotifyPlayer = (PlayerTypes) iNotifyLoop;
-						CvPlayerAI& kCurNotifyPlayer = GET_PLAYER(eNotifyPlayer);
+						CvPlayer& kCurNotifyPlayer = GET_PLAYER(eNotifyPlayer);
 
 						// Issue notification if OTHER than target player
 						if (m_pPlayer->GetID() != eNotifyPlayer)

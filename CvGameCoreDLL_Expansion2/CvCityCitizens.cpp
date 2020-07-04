@@ -231,7 +231,7 @@ void CvCityCitizens::DoTurn()
 	AI_PERF_FORMAT("City-AI-perf.csv", ("CvCityCitizens::DoTurn, Turn %03d, %s, %s", GC.getGame().getElapsedGameTurns(), m_pCity->GetPlayer()->getCivilizationShortDescription(), m_pCity->getName().c_str()) );
 	DoVerifyWorkingPlots();
 
-	CvPlayerAI& thisPlayer = GET_PLAYER(GetOwner());
+	CvPlayer& thisPlayer = GET_PLAYER(GetOwner());
 
 	if(m_pCity->IsPuppet())
 	{

@@ -1246,7 +1246,7 @@ void CvUnitMission::StartMission(UnitHandle hUnit)
 	CvAssert(hUnit->getOwner() != NO_PLAYER);
 	CvAssert(hUnit->HeadMissionQueueNode() != NULL);
 
-	CvPlayerAI& kUnitOwner = GET_PLAYER(hUnit->getOwner());
+	CvPlayer& kUnitOwner = GET_PLAYER(hUnit->getOwner());
 
 
 	if(!kUnitOwner.isSimultaneousTurns())

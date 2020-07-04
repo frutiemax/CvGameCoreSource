@@ -9187,7 +9187,7 @@ void CvDiplomacyAI::DoUpdateOnePlayerMilitaryAggressivePosture(PlayerTypes ePlay
 		SetLastTurnMilitaryAggressivePosture(ePlayer, eLastTurnAggressivePosture);
 
 	iUnitValueOnMyHomeFront = 0;
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 	CvTeam& kTeam = GET_TEAM(kPlayer.getTeam());
 	bIsAtWarWithSomeone = (kTeam.getAtWarCount(false) > 0);
 
@@ -11472,7 +11472,7 @@ void CvDiplomacyAI::DoMakePublicDeclaration(PublicDeclarationTypes eDeclaration,
 		//Send notification to everyone that can get it.
 		for(int iCurPlayer = 0; iCurPlayer < MAX_MAJOR_CIVS; ++iCurPlayer){
 			PlayerTypes eCurPlayer = (PlayerTypes) iCurPlayer;
-			CvPlayerAI& kCurPlayer = GET_PLAYER(eCurPlayer);
+			CvPlayer& kCurPlayer = GET_PLAYER(eCurPlayer);
 			if(IsPlayerValid(eCurPlayer) 
 				&& (eMustHaveMetPlayer == NO_PLAYER || GET_TEAM(kCurPlayer.getTeam()).isHasMet(GET_PLAYER(eMustHaveMetPlayer).getTeam()))){
 				CvNotifications* pNotifications = GET_PLAYER(eCurPlayer).GetNotifications();
@@ -11487,7 +11487,7 @@ void CvDiplomacyAI::DoMakePublicDeclaration(PublicDeclarationTypes eDeclaration,
 	else
 	{
 		//send notification to the specific player.
-		CvPlayerAI& kSpecificPlayer = GET_PLAYER(eForSpecificPlayer);
+		CvPlayer& kSpecificPlayer = GET_PLAYER(eForSpecificPlayer);
 		if(IsPlayerValid(eForSpecificPlayer) 
 			&& (eMustHaveMetPlayer == NO_PLAYER || GET_TEAM(kSpecificPlayer.getTeam()).isHasMet(GET_PLAYER(eMustHaveMetPlayer).getTeam()))){	
 			CvNotifications* pNotifications = kSpecificPlayer.GetNotifications();
@@ -17935,7 +17935,7 @@ const char* CvDiplomacyAI::GetGreetHumanMessage(LeaderheadAnimationTypes& eAnima
 const char* CvDiplomacyAI::GetInsultHumanMessage()
 {
 	PlayerTypes ePlayer = GC.getGame().getActivePlayer();
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 
 	StrengthTypes eMilitaryStrengthComparedToUs = GetPlayerMilitaryStrengthComparedToUs(ePlayer);
 
@@ -19162,7 +19162,7 @@ void CvDiplomacyAI::SetDoFAccepted(PlayerTypes ePlayer, bool bValue)
 			Localization::String strSummary = Localization::Lookup("TXT_KEY_NOTIFICATION_DOF_S");
 			for(int iCurPlayer = 0; iCurPlayer < MAX_MAJOR_CIVS; ++iCurPlayer){
 				PlayerTypes eCurPlayer = (PlayerTypes) iCurPlayer;
-				CvPlayerAI& kCurPlayer = GET_PLAYER(eCurPlayer);
+				CvPlayer& kCurPlayer = GET_PLAYER(eCurPlayer);
 				CvNotifications* pNotifications = GET_PLAYER(eCurPlayer).GetNotifications();
 				if(iCurPlayer != ePlayer && iCurPlayer !=GetPlayer()->GetID() && pNotifications){
 					const char* strThisPlayerName;
@@ -19382,7 +19382,7 @@ void CvDiplomacyAI::DoDenouncePlayer(PlayerTypes ePlayer)
 	Localization::String denounceYouSummary = Localization::Lookup("TXT_KEY_NOTIFICATION_DENOUNCED_YOU_S");
 	for(int iCurPlayer = 0; iCurPlayer < MAX_MAJOR_CIVS; ++iCurPlayer){
 		PlayerTypes eCurPlayer = (PlayerTypes) iCurPlayer;
-		CvPlayerAI& kCurPlayer = GET_PLAYER(eCurPlayer);
+		CvPlayer& kCurPlayer = GET_PLAYER(eCurPlayer);
 		CvNotifications* pNotifications = GET_PLAYER(eCurPlayer).GetNotifications();
 		if(pNotifications)
 		{

@@ -2670,7 +2670,7 @@ void CvMilitaryAI::UpdateOperations()
 	}
 
 	// if they have one of our civilians
-	CvPlayerAI& BarbPlayer = GET_PLAYER(BARBARIAN_PLAYER);
+	CvPlayer& BarbPlayer = GET_PLAYER(BARBARIAN_PLAYER);
 	CvUnit* pLoopUnit = NULL;
 	int iBarbLoop;
 	for (pLoopUnit = BarbPlayer.firstUnit(&iBarbLoop); pLoopUnit != NULL; pLoopUnit = BarbPlayer.nextUnit(&iBarbLoop))
@@ -4499,7 +4499,7 @@ bool MilitaryAIHelpers::IsTestStrategy_EradicateBarbarians(MilitaryAIStrategyTyp
 	}
 
 	// We ARE getting our guys back
-	CvPlayerAI& BarbPlayer = GET_PLAYER(BARBARIAN_PLAYER);
+	CvPlayer& BarbPlayer = GET_PLAYER(BARBARIAN_PLAYER);
 	CvUnit* pLoopUnit = NULL;
 	int iLoop;
 	for (pLoopUnit = BarbPlayer.firstUnit(&iLoop); pLoopUnit != NULL; pLoopUnit = BarbPlayer.nextUnit(&iLoop))

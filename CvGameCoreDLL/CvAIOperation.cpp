@@ -1534,7 +1534,7 @@ bool CvAIOperation::FindBestFitReserveUnit (OperationSlot thisOperationSlot, CvP
 	CvUnit* pLoopUnit;
 	CvUnit* pBestUnit = NULL;
 	int iLoop = 0;
-	CvPlayerAI& ownerPlayer = GET_PLAYER(m_eOwner);
+	CvPlayer& ownerPlayer = GET_PLAYER(m_eOwner);
 	CvArmyAI* pThisArmy = ownerPlayer.getArmyAI(thisOperationSlot.m_iArmyID);
 	CvString strMsg;
 
@@ -2366,7 +2366,7 @@ CvPlot *CvAIOperationPillageEnemy::FindBestTarget()
 	int iDistance;
 	int iLoop;
 
-	CvPlayerAI& kEnemyPlayer = GET_PLAYER(m_eEnemy);
+	CvPlayer& kEnemyPlayer = GET_PLAYER(m_eEnemy);
 
 	if (!kEnemyPlayer.isAlive())
 	{

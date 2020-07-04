@@ -1647,7 +1647,7 @@ static CvUnit* GetClosestUnit(CvOperationSearchUnitList& kSearchList, CvPlot* pk
 bool CvAIOperation::FindBestFitReserveUnit(OperationSlot thisOperationSlot, CvPlot* pMusterPlot, CvPlot* pTargetPlot, bool* bRequired)
 {
 	CvUnit* pBestUnit = NULL;
-	CvPlayerAI& ownerPlayer = GET_PLAYER(m_eOwner);
+	CvPlayerAI& ownerPlayer = dynamic_cast<CvPlayerAI&>(GET_PLAYER(m_eOwner));
 	CvArmyAI* pThisArmy = ownerPlayer.getArmyAI(thisOperationSlot.m_iArmyID);
 	CvString strMsg;
 	CvPlot *pTargetToUse = pTargetPlot;
@@ -2439,7 +2439,7 @@ bool CvAIOperationDestroyBarbarianCamp::ShouldAbort()
 		else if (m_bCivilianRescue)
 		{
 			// is the unit rescued?
-			CvPlayerAI& BarbPlayer = GET_PLAYER(BARBARIAN_PLAYER);
+			CvPlayer& BarbPlayer = GET_PLAYER(BARBARIAN_PLAYER);
 			CvUnit* pUnitToRescue = BarbPlayer.getUnit(m_iUnitToRescue);
 			if (!pUnitToRescue)
 			{
@@ -2507,7 +2507,7 @@ CvPlot* CvAIOperationDestroyBarbarianCamp::FindBestTarget()
 		// look for good captured civilians of ours (settlers and workers, not missionaries) 
 		// these will be even more important than just a camp
 		// btw - the AI will cheat here - as a human I would use a combination of memory and intuition to find these, since our current AI has neither of these...
-		CvPlayerAI& BarbPlayer = GET_PLAYER(BARBARIAN_PLAYER);
+		CvPlayer& BarbPlayer = GET_PLAYER(BARBARIAN_PLAYER);
 
 		CvUnit* pLoopUnit = NULL;
 		int iLoop;
@@ -2686,7 +2686,7 @@ CvPlot* CvAIOperationPillageEnemy::FindBestTarget()
 	int iDistance;
 	int iLoop;
 
-	CvPlayerAI& kEnemyPlayer = GET_PLAYER(m_eEnemy);
+	CvPlayer& kEnemyPlayer = GET_PLAYER(m_eEnemy);
 
 	if(!kEnemyPlayer.isAlive())
 	{
@@ -3513,7 +3513,7 @@ bool CvAIOperationMerchantDelegation::ArmyInPosition(CvArmyAI* pArmy)
 			// If the merchant made it, we don't care about the entire army
 			if(pMerchant->plot() == GetTargetPlot() && pMerchant->canMove() && pMerchant->canTrade(pMerchant->plot()))
 			{
-				if (pMerchant->canBuyCityState(pMerchant->plot()) && !GET_PLAYER(m_eOwner).GreatMerchantWantsCash())
+				if (pMerchant->canBuyCityState(pMerchant->plot()) && !dynamic_cast<CvPlayerAI&>(GET_PLAYER(m_eOwner)).GreatMerchantWantsCash())
 				{
 					pMerchant->PushMission(CvTypes::getMISSION_BUY_CITY_STATE());
 					if(GC.getLogging() && GC.getAILogging())
@@ -3578,7 +3578,7 @@ CvPlot* CvAIOperationMerchantDelegation::FindBestTarget(CvUnit* pUnit, bool bOnl
 		return NULL;
 	}
 
-	return GET_PLAYER(pUnit->getOwner()).FindBestMerchantTargetPlot(pUnit, !bOnlySafePaths /*m_bEscorted*/);
+	return dynamic_cast<CvPlayerAI&>(GET_PLAYER(pUnit->getOwner())).FindBestMerchantTargetPlot(pUnit, !bOnlySafePaths /*m_bEscorted*/);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -3730,7 +3730,7 @@ CvPlot* CvAIOperationConcertTour::FindBestTarget(CvUnit* pUnit, bool bOnlySafePa
 		return NULL;
 	}
 
-	return GET_PLAYER(pUnit->getOwner()).FindBestMusicianTargetPlot(pUnit, !bOnlySafePaths /*m_bEscorted*/);
+	return dynamic_cast<CvPlayerAI&>(GET_PLAYER(pUnit->getOwner())).FindBestMusicianTargetPlot(pUnit, !bOnlySafePaths /*m_bEscorted*/);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -5097,7 +5097,7 @@ CvCity* CvAINavalEscortedOperation::GetOperationStartCity() const
 		return GetStartCityPlot()->getPlotCity();
 	}
 
-	CvPlayerAI& kOwner = GET_PLAYER(m_eOwner);
+	CvPlayer& kOwner = GET_PLAYER(m_eOwner);
 
 	int iLoop = 0;
 	CvCity* pCity = NULL;
@@ -5134,7 +5134,7 @@ CvUnit* CvAINavalEscortedOperation::FindBestCivilian()
 	int iUnitLoop = 0;
 	CvUnit* pLoopUnit = NULL;
 
-	CvPlayerAI& kOwner = GET_PLAYER(m_eOwner);
+	CvPlayer& kOwner = GET_PLAYER(m_eOwner);
 
 	for(pLoopUnit = kOwner.firstUnit(&iUnitLoop); pLoopUnit != NULL; pLoopUnit = kOwner.nextUnit(&iUnitLoop))
 	{
@@ -5620,10 +5620,10 @@ CvPlot* CvAIOperationNukeAttack::FindBestTarget()
 	int iBestCity = 0;
 	int iUnitLoop = 0;
 	int iCityLoop = 0;
-	CvPlayerAI& ownerPlayer = GET_PLAYER(m_eOwner);
+	CvPlayer& ownerPlayer = GET_PLAYER(m_eOwner);
 	TeamTypes eTeam = ownerPlayer.getTeam();
 	CvTeam& ourTeam = GET_TEAM(eTeam);
-	CvPlayerAI& enemyPlayer = GET_PLAYER(m_eEnemy);
+	CvPlayer& enemyPlayer = GET_PLAYER(m_eEnemy);
 
 	int iBlastRadius = GC.getNUKE_BLAST_RADIUS();
 
@@ -5760,7 +5760,7 @@ bool CvAIOperationNukeAttack::FindBestFitReserveUnit(OperationSlot thisOperation
 {
 	// okay, this can be simplified to
 	*bRequired = true;
-	CvPlayerAI& ownerPlayer = GET_PLAYER(m_eOwner);
+	CvPlayer& ownerPlayer = GET_PLAYER(m_eOwner);
 	CvArmyAI* pThisArmy = ownerPlayer.getArmyAI(thisOperationSlot.m_iArmyID);
 	pThisArmy->AddUnit(m_iBestUnitID, thisOperationSlot.m_iSlotID);
 	return true;

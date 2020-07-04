@@ -3242,7 +3242,7 @@ bool CvPlot::isVisibleToWatchingHuman() const
 
 	for(iI = 0; iI < MAX_CIV_PLAYERS; ++iI)
 	{
-		CvPlayerAI& thisPlayer = GET_PLAYER((PlayerTypes)iI);
+		CvPlayer& thisPlayer = GET_PLAYER((PlayerTypes)iI);
 		if( (thisPlayer.isAlive() && thisPlayer.isHuman()) || ( CvPreGame::slotStatus((PlayerTypes)iI) == SS_OBSERVER && CvPreGame::slotClaim((PlayerTypes)iI) == SLOTCLAIM_ASSIGNED) )
 		{
 			if(isVisible(thisPlayer.getTeam()))
@@ -4922,7 +4922,7 @@ void CvPlot::setOwner(PlayerTypes eNewValue, int iAcquiringCityID, bool bCheckUn
 
 			if(isOwned())
 			{
-				CvPlayerAI& newPlayer = GET_PLAYER(eNewValue);
+				CvPlayer& newPlayer = GET_PLAYER(eNewValue);
 				if(iAcquiringCityID >= 0)
 				{
 					m_purchaseCity.eOwner = eNewValue;
@@ -7077,7 +7077,7 @@ int CvPlot::calculateImprovementYieldChange(ImprovementTypes eImprovement, Yield
 	int iYieldChangePerEra = pImprovement->GetYieldChangePerEra(eYield);
 	if (ePlayer != NO_PLAYER && iYieldChangePerEra > 0)
 	{
-		CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+		CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 
 		int iPlotEra = GetArchaeologicalRecord().m_eEra;
 		int iNumEras = kPlayer.GetCurrentEra() - iPlotEra;
@@ -7193,7 +7193,7 @@ int CvPlot::calculateImprovementYieldChange(ImprovementTypes eImprovement, Yield
 	}
 	else
 	{
-		CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+		CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 		CvTeam& kTeam = GET_TEAM(kPlayer.getTeam());
 
 		iYield += kPlayer.getImprovementYieldChange(eImprovement, eYield);
@@ -7703,7 +7703,7 @@ PlotVisibilityChangeResult CvPlot::changeVisibilityCount(TeamTypes eTeam, int iC
 					// slewis - ghetto-tastic hack. ugh
 					for(int iI = 0; iI < MAX_PLAYERS; iI++)
 					{
-						CvPlayerAI& playerI = GET_PLAYER((PlayerTypes)iI);
+						CvPlayer& playerI = GET_PLAYER((PlayerTypes)iI);
 						if(playerI.isAlive())
 						{
 							if(playerI.getTeam() == eTeam)
@@ -8078,7 +8078,7 @@ bool CvPlot::setRevealed(TeamTypes eTeam, bool bNewValue, bool bTerrainOnly, Tea
 					// Loop through all players to give them a Notification
 					for(iI = 0; iI < MAX_MAJOR_CIVS; ++iI)
 					{
-						CvPlayerAI& playerI = GET_PLAYER((PlayerTypes)iI);
+						CvPlayer& playerI = GET_PLAYER((PlayerTypes)iI);
 						if(playerI.isAlive())
 						{
 							if(playerI.getTeam() == eTeam)
@@ -8125,7 +8125,7 @@ bool CvPlot::setRevealed(TeamTypes eTeam, bool bNewValue, bool bTerrainOnly, Tea
 							// Does a player on this team have a trait that gives first finder gold?
 							for(iI = 0; iI < MAX_MAJOR_CIVS; ++iI)
 							{
-								CvPlayerAI& playerI = GET_PLAYER((PlayerTypes)iI);
+								CvPlayer& playerI = GET_PLAYER((PlayerTypes)iI);
 								if(playerI.isAlive())
 								{
 									if(playerI.getTeam() == eTeam)
@@ -8140,7 +8140,7 @@ bool CvPlot::setRevealed(TeamTypes eTeam, bool bNewValue, bool bTerrainOnly, Tea
 							// Does a player on this team have a trait that gives subsequent finder gold?
 							for(iI = 0; iI < MAX_MAJOR_CIVS; ++iI)
 							{
-								CvPlayerAI& playerI = GET_PLAYER((PlayerTypes)iI);
+								CvPlayer& playerI = GET_PLAYER((PlayerTypes)iI);
 								if(playerI.isAlive())
 								{
 									if(playerI.getTeam() == eTeam)
@@ -8178,7 +8178,7 @@ bool CvPlot::setRevealed(TeamTypes eTeam, bool bNewValue, bool bTerrainOnly, Tea
 
 							for(iI = 0; iI < MAX_MAJOR_CIVS; ++iI)
 							{
-								CvPlayerAI& playerI = GET_PLAYER((PlayerTypes)iI);
+								CvPlayer& playerI = GET_PLAYER((PlayerTypes)iI);
 								if(playerI.isAlive())
 								{
 									if(playerI.getTeam() == eTeam)
@@ -8278,7 +8278,7 @@ bool CvPlot::setRevealed(TeamTypes eTeam, bool bNewValue, bool bTerrainOnly, Tea
 						}
 						for(iI = 0; iI < MAX_MAJOR_CIVS; ++iI)
 						{
-							CvPlayerAI& playerI = GET_PLAYER((PlayerTypes)iI);
+							CvPlayer& playerI = GET_PLAYER((PlayerTypes)iI);
 							if(playerI.isAlive())
 							{
 								if(playerI.getTeam() == eTeam)

@@ -2100,7 +2100,7 @@ void CvPlayerCulture::DoTurn()
 
 			for(int iNotifyPlayerID = 0; iNotifyPlayerID < MAX_MAJOR_CIVS; ++iNotifyPlayerID){
 				PlayerTypes eNotifyPlayer = (PlayerTypes) iNotifyPlayerID;
-				CvPlayerAI& kNotifyPlayer = GET_PLAYER(eNotifyPlayer);
+				CvPlayer& kNotifyPlayer = GET_PLAYER(eNotifyPlayer);
 
 				if (m_pPlayer->GetID() == eNotifyPlayer){	
 					strInfo = targFirstInfluentialInfo;
@@ -2144,7 +2144,7 @@ void CvPlayerCulture::DoTurn()
 			CvString							unmetCloseTwoInfo = GetLocalizedText("TXT_KEY_NOTIFICATION_CULTURE_VICTORY_WITHIN_TWO_UNMET_TT");
 			for(int iNotifyLoop = 0; iNotifyLoop < MAX_MAJOR_CIVS; ++iNotifyLoop){
 				PlayerTypes eCurPlayer = (PlayerTypes) iNotifyLoop;
-				CvPlayerAI& kCurPlayer = GET_PLAYER(eCurPlayer);
+				CvPlayer& kCurPlayer = GET_PLAYER(eCurPlayer);
 
 				if (eCurPlayer == m_pPlayer->GetID()){	
 					strSummary = targCloseTwoSummary;
@@ -2184,7 +2184,7 @@ void CvPlayerCulture::DoTurn()
 			CvString							unmetCloseOneInfo = GetLocalizedText("TXT_KEY_NOTIFICATION_CULTURE_VICTORY_WITHIN_ONE_UNMET_TT");
 			for(int iNotifyLoop = 0; iNotifyLoop < MAX_MAJOR_CIVS; ++iNotifyLoop){
 				PlayerTypes eCurPlayer = (PlayerTypes) iNotifyLoop;
-				CvPlayerAI& kCurPlayer = GET_PLAYER(eCurPlayer);
+				CvPlayer& kCurPlayer = GET_PLAYER(eCurPlayer);
 
 				if (eCurPlayer == m_pPlayer->GetID()){	
 					strSummary = targCloseOneSummary;

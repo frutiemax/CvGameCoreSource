@@ -23,7 +23,7 @@ public:
 	virtual ~CvPlayerAI();
 
 	// inlined for performance reasons
-	static CvPlayerAI& getPlayer(PlayerTypes ePlayer)
+	static CvPlayer& getPlayer(PlayerTypes ePlayer)
 	{
 		CvAssertMsg(ePlayer != NO_PLAYER, "Player is not assigned a valid value");
 		CvAssertMsg(ePlayer < MAX_PLAYERS, "Player is not assigned a valid value");

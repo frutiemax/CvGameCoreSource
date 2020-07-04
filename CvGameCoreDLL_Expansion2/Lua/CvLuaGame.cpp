@@ -1030,7 +1030,7 @@ int CvLuaGame::lGetNumWorldWonders(lua_State* L)
 	for(int iPlayerLoop = 0; iPlayerLoop < MAX_PLAYERS; iPlayerLoop++)
 	{
 		eLoopPlayer = (PlayerTypes) iPlayerLoop;
-		CvPlayerAI& kLoopPlayer = GET_PLAYER(eLoopPlayer);
+		CvPlayer& kLoopPlayer = GET_PLAYER(eLoopPlayer);
 
 		// Loop through all buildings, see if they're a world wonder
 		for(int iBuildingLoop = 0; iBuildingLoop < GC.getNumBuildingInfos(); iBuildingLoop++)

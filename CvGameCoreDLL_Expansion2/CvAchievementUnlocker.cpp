@@ -149,7 +149,7 @@ void CvPlayerAchievements::AlliedWithCityState(PlayerTypes eNewCityStateAlly)
 					for(int i = 0; i < MAX_CIV_PLAYERS; ++i)
 					{
 						const PlayerTypes ePlayer = static_cast<PlayerTypes>(i);
-						CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+						CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 						if(kPlayer.isAlive() && kPlayer.isMinorCiv())
 						{
 							const PlayerTypes eAlly = kPlayer.GetMinorCivAI()->GetAlly();

@@ -19,7 +19,7 @@
 
 #include "CvLuaScopedInstance.h"
 
-class CvLuaPlayer : public CvLuaScopedInstance<CvLuaPlayer, CvPlayerAI>
+class CvLuaPlayer : public CvLuaScopedInstance<CvLuaPlayer, CvPlayer>
 {
 public:
 	//! Push all player instances to Lua

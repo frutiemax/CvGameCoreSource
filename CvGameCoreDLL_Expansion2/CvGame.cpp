@@ -680,7 +680,7 @@ void CvGame::InitPlayers()
 	for(iI = 0; iI < MAX_PLAYERS; iI++)
 	{
 		const PlayerTypes ePlayer = static_cast<PlayerTypes>(iI);
-		CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+		CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 
 		kPlayer.init(ePlayer);
 	}
@@ -1336,7 +1336,7 @@ void CvGame::initFreeState(CvGameInitialItemsOverrides& kOverrides)
 						{
 							for(int iK = 0; iK < MAX_PLAYERS; iK++)
 							{
-								CvPlayerAI& kPlayer = GET_PLAYER((PlayerTypes)iK);
+								CvPlayer& kPlayer = GET_PLAYER((PlayerTypes)iK);
 								if(kPlayer.isAlive())
 								{
 									if(kPlayer.getTeam() == eTeam)
@@ -1366,7 +1366,7 @@ void CvGame::initFreeState(CvGameInitialItemsOverrides& kOverrides)
 	for(int iI = 0; iI < MAX_PLAYERS; iI++)
 	{
 		const PlayerTypes ePlayer = static_cast<PlayerTypes>(iI);
-		CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+		CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 		if(kPlayer.isAlive())
 		{
 			kPlayer.initFreeState(kOverrides);
@@ -1381,7 +1381,7 @@ void CvGame::initFreeUnits(CvGameInitialItemsOverrides& kOverrides)
 	for(int iI = 0; iI < MAX_PLAYERS; iI++)
 	{
 		const PlayerTypes ePlayer = static_cast<PlayerTypes>(iI);
-		CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+		CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 
 		if(kOverrides.GrantInitialUnitsPerPlayer[ePlayer])
 		{
@@ -1680,7 +1680,7 @@ void CvGame::updateScore(bool bForce)
 		setPlayerRank(eBestPlayer, iI);
 		setPlayerScore(eBestPlayer, iBestScore);
 
-		CvPlayerAI& player = GET_PLAYER(eBestPlayer);
+		CvPlayer& player = GET_PLAYER(eBestPlayer);
 
 		unsigned int uiDataSetIndex = player.getReplayDataSetIndex("REPLAYDATASET_SCORE");
 		player.setReplayDataValue(uiDataSetIndex, getGameTurn(), iBestScore);
@@ -1777,7 +1777,7 @@ void CvGame::updateCitySight(bool bIncrement)
 
 	for(iI = 0; iI < MAX_PLAYERS; iI++)
 	{
-		CvPlayerAI& kPlayer = GET_PLAYER((PlayerTypes)iI);
+		CvPlayer& kPlayer = GET_PLAYER((PlayerTypes)iI);
 		if(kPlayer.isAlive())
 		{
 			kPlayer.updateCitySight(bIncrement);
@@ -2310,7 +2310,7 @@ void CvGame::cycleUnits(bool bClear, bool bForward, bool bWorkers)
 	bool bProcessed = false;
 	PlayerTypes eActivePlayer = getActivePlayer();
 	ICvUserInterface2* pUI = GC.GetEngineUserInterface();
-	CvPlayerAI& theActivePlayer = GET_PLAYER(eActivePlayer);
+	CvPlayer& theActivePlayer = GET_PLAYER(eActivePlayer);
 
 	auto_ptr<ICvUnit1> pDllSelectedUnit(pUI->GetHeadSelectedUnit());
 	CvUnit* pCycleUnit = GC.UnwrapUnitPointer(pDllSelectedUnit.get());
@@ -2763,7 +2763,7 @@ void CvGame::selectGroup(CvUnit* pUnit, bool bShift, bool bCtrl, bool bAlt)
 			{
 				if(pLoopUnit->canMove())
 				{
-					CvPlayerAI* pOwnerPlayer = &(GET_PLAYER(pLoopUnit->getOwner()));
+					CvPlayer* pOwnerPlayer = &(GET_PLAYER(pLoopUnit->getOwner()));
 					if( !pOwnerPlayer->isSimultaneousTurns() || getTurnSlice() - pLoopUnit->getLastMoveTurn() > GC.getMIN_TIMER_UNIT_DOUBLE_MOVES())
 					{
 						if(bAlt || (pLoopUnit->getUnitType() == pUnit->getUnitType()))
@@ -2810,7 +2810,7 @@ void CvGame::selectAll(CvPlot* pPlot)
 void CvGame::SelectSettler(void)
 {
 	CvUnit* pSettlerUnit = NULL;
-	CvPlayerAI* pActivePlayer = &(GET_PLAYER(getActivePlayer()));
+	CvPlayer* pActivePlayer = &(GET_PLAYER(getActivePlayer()));
 
 	CvUnit* pLoopUnit = NULL;
 	int iUnitIndex;
@@ -3422,7 +3422,7 @@ void CvGame::doControl(ControlTypes eControl)
 	case CONTROL_ENDTURN_ALT:
 		if(GC.GetEngineUserInterface()->canEndTurn() && gDLL->allAICivsProcessedThisTurn() && allUnitAIProcessed())
 		{
-			CvPlayerAI& kActivePlayer = GET_PLAYER(getActivePlayer());
+			CvPlayer& kActivePlayer = GET_PLAYER(getActivePlayer());
 			if (!isNetworkMultiPlayer() && kActivePlayer.isHuman() && GC.GetPostTurnAutosaves())
 			{
 				gDLL->AutoSave(false, true);
@@ -3439,7 +3439,7 @@ void CvGame::doControl(ControlTypes eControl)
 		EndTurnBlockingTypes eBlock = GET_PLAYER(getActivePlayer()).GetEndTurnBlockingType();
 		if(gDLL->allAICivsProcessedThisTurn() && allUnitAIProcessed() && (eBlock == NO_ENDTURN_BLOCKING_TYPE || eBlock == ENDTURN_BLOCKING_UNITS))
 		{
-			CvPlayerAI& kActivePlayer = GET_PLAYER(getActivePlayer());
+			CvPlayer& kActivePlayer = GET_PLAYER(getActivePlayer());
 			kActivePlayer.GetPlayerAchievements().EndTurn();
 			gDLL->sendTurnComplete();
 			CvAchievementUnlocker::EndTurn();
@@ -5781,7 +5781,7 @@ void CvGame::setWinner(TeamTypes eNewWinner, VictoryTypes eNewVictory)
 			if(getWinner() != NO_TEAM)
 			{
 				const PlayerTypes winningTeamLeaderID = GET_TEAM(getWinner()).getLeaderID();
-				CvPlayerAI& kWinningTeamLeader = GET_PLAYER(winningTeamLeaderID);
+				CvPlayer& kWinningTeamLeader = GET_PLAYER(winningTeamLeaderID);
 				const char* szWinningTeamLeaderNameKey = kWinningTeamLeader.getNameKey();
 
 				Localization::String localizedText = Localization::Lookup("TXT_KEY_GAME_WON");
@@ -5797,7 +5797,7 @@ void CvGame::setWinner(TeamTypes eNewWinner, VictoryTypes eNewVictory)
 
 				for(int iNotifyLoop = 0; iNotifyLoop < MAX_MAJOR_CIVS; ++iNotifyLoop){
 					PlayerTypes eNotifyPlayer = (PlayerTypes) iNotifyLoop;
-					CvPlayerAI& kCurNotifyPlayer = GET_PLAYER(eNotifyPlayer);
+					CvPlayer& kCurNotifyPlayer = GET_PLAYER(eNotifyPlayer);
 					CvNotifications* pNotifications = kCurNotifyPlayer.GetNotifications();
 					if(pNotifications){
 						pNotifications->Add(NOTIFICATION_VICTORY, localizedText.toUTF8(), localizedSummary.toUTF8(), -1, -1, -1);
@@ -6617,7 +6617,7 @@ void CvGame::DoPlaceTeamInVictoryCompetition(VictoryTypes eNewVictory, TeamTypes
 
 				for(int iNotifyLoop = 0; iNotifyLoop < MAX_MAJOR_CIVS; ++iNotifyLoop){
 					PlayerTypes eNotifyPlayer = (PlayerTypes) iNotifyLoop;
-					CvPlayerAI& kCurNotifyPlayer = GET_PLAYER(eNotifyPlayer);
+					CvPlayer& kCurNotifyPlayer = GET_PLAYER(eNotifyPlayer);
 					CvNotifications* pNotification = kCurNotifyPlayer.GetNotifications();
 					if(pNotification)
 					{
@@ -6893,7 +6893,7 @@ void CvGame::setGameState(GameStateTypes eNewValue)
 				const TeamTypes eWinningTeam = getWinner();
 				if(eWinningTeam != NO_TEAM)
 				{
-					CvPlayerAI& kLocalPlayer = GET_PLAYER(getActivePlayer());
+					CvPlayer& kLocalPlayer = GET_PLAYER(getActivePlayer());
 					if(eWinningTeam == kLocalPlayer.getTeam())
 						bLocalPlayerLost = false;
 				}
@@ -6912,7 +6912,7 @@ void CvGame::setGameState(GameStateTypes eNewValue)
 					bool bUsingDLC5Scenario = gDLL->IsModActivated(CIV5_DLC_05_SCENARIO_MODID);
 					if(bUsingDLC5Scenario) // && getGameTurn() == 100)
 					{
-						CvPlayerAI& kLocalPlayer = GET_PLAYER(getActivePlayer());
+						CvPlayer& kLocalPlayer = GET_PLAYER(getActivePlayer());
 						CvString strCivType = kLocalPlayer.getCivilizationInfo().GetType();
 						if(strCivType == "CIVILIZATION_KOREA")
 						{
@@ -9652,7 +9652,7 @@ void CvGame::saveReplay()
 {
 	gDLL->saveReplay();
 
-	CvPlayerAI& activePlayer = GET_PLAYER(getActivePlayer());
+	CvPlayer& activePlayer = GET_PLAYER(getActivePlayer());
 
 	bool playerTeamWon = (getActiveTeam() == getWinner());
 	int score = activePlayer.GetScore(true, playerTeamWon);
@@ -10268,7 +10268,7 @@ void CvGame::DoResearchAgreementNotification(TeamTypes eTeam1, TeamTypes eTeam2)
 	// Notify all non-parties that these civs made a research agreement.
 	for(int iNotifyLoop = 0; iNotifyLoop < MAX_MAJOR_CIVS; ++iNotifyLoop){
 		PlayerTypes eNotifyPlayer = (PlayerTypes) iNotifyLoop;
-		CvPlayerAI& kCurNotifyPlayer = GET_PLAYER(eNotifyPlayer);
+		CvPlayer& kCurNotifyPlayer = GET_PLAYER(eNotifyPlayer);
 		TeamTypes eCurNotifyTeam = kCurNotifyPlayer.getTeam();
 
 		// Don't show notification if WE'RE the ones in the deal
@@ -10428,7 +10428,7 @@ void CvGame::SetBestWondersPlayer(PlayerTypes ePlayer, int iWonderCount)
 		// Notify everyone of this change.
 		for(int iNotifyLoop = 0; iNotifyLoop < MAX_MAJOR_CIVS; ++iNotifyLoop){
 			PlayerTypes eNotifyPlayer = (PlayerTypes) iNotifyLoop;
-			CvPlayerAI& kCurNotifyPlayer = GET_PLAYER(eNotifyPlayer);
+			CvPlayer& kCurNotifyPlayer = GET_PLAYER(eNotifyPlayer);
 			TeamTypes eCurNotifyTeam = kCurNotifyPlayer.getTeam();
 
 			CvNotifications* pNotifications = kCurNotifyPlayer.GetNotifications();
@@ -10493,7 +10493,7 @@ void CvGame::SetBestPoliciesPlayer(PlayerTypes ePlayer, int iPolicyCount)
 		//Notify everyone
 		for(int iNotifyLoop = 0; iNotifyLoop < MAX_MAJOR_CIVS; ++iNotifyLoop){
 			PlayerTypes eNotifyPlayer = (PlayerTypes) iNotifyLoop;
-			CvPlayerAI& kCurNotifyPlayer = GET_PLAYER(eNotifyPlayer);
+			CvPlayer& kCurNotifyPlayer = GET_PLAYER(eNotifyPlayer);
 			TeamTypes eCurNotifyTeam = kCurNotifyPlayer.getTeam();
 
 			// This player has the most Policies
@@ -10551,7 +10551,7 @@ void CvGame::SetBestGreatPeoplePlayer(PlayerTypes ePlayer, int iGreatPeopleCount
 
 		for(int iNotifyLoop = 0; iNotifyLoop < MAX_MAJOR_CIVS; ++iNotifyLoop){
 			PlayerTypes eNotifyPlayer = (PlayerTypes) iNotifyLoop;
-			CvPlayerAI& kCurNotifyPlayer = GET_PLAYER(eNotifyPlayer);
+			CvPlayer& kCurNotifyPlayer = GET_PLAYER(eNotifyPlayer);
 			TeamTypes eCurNotifyTeam = kCurNotifyPlayer.getTeam();
 
 			CvNotifications* pNotifications =kCurNotifyPlayer.GetNotifications();

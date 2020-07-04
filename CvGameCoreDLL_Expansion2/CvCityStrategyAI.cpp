@@ -735,7 +735,7 @@ void CvCityStrategyAI::ChooseProduction(bool bUseAsyncRandom, BuildingTypes eIgn
 	UnitTypes eUnitForOperation;
 	UnitTypes eUnitForArmy;
 
-	CvPlayerAI& kPlayer = GET_PLAYER(m_pCity->getOwner());
+	CvPlayer& kPlayer = GET_PLAYER(m_pCity->getOwner());
 	CvDiplomacyAI* pDiploAI = kPlayer.GetDiplomacyAI();
 
 	//int iSettlersOnMap = kPlayer.GetNumUnitsWithUnitAI(UNITAI_SETTLE, true);

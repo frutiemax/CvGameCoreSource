@@ -4473,7 +4473,7 @@ CvString CvLeague::GetMemberDelegationDetails(PlayerTypes eMember, PlayerTypes e
 	{
 		iVotes = GetRemainingVotesForMember(eMember) + GetSpentVotesForMember(eMember);
 	}
-	CvPlayerAI& kMember = GET_PLAYER(eMember);
+	CvPlayer& kMember = GET_PLAYER(eMember);
 	Localization::String sTemp = Localization::Lookup("TXT_KEY_LEAGUE_OVERVIEW_MEMBER_DETAILS");
 	sTemp << kMember.getNameKey();
 	sTemp << kMember.getCivilizationShortDescriptionKey();

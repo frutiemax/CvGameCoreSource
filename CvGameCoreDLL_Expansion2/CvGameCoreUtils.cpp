@@ -629,7 +629,7 @@ bool OnSameBodyOfWater(CvCity* pCity1, CvCity* pCity2)
 TechTypes getDiscoveryTech(UnitTypes eUnit, PlayerTypes ePlayer)
 {
 	TechTypes eBestTech = NO_TECH;
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 
 	CvUnitEntry* pkUnitInfo = GC.getUnitInfo(eUnit);
 	if(pkUnitInfo)

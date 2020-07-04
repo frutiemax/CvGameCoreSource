@@ -3744,7 +3744,7 @@ bool CvGlobals::GetHexDebugLayerString(CvPlot* pkPlot, const char* szLayerName, 
 	{
 		if(!pkPlot->isWater() && ePlayer != NO_PLAYER)
 		{
-			CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+			CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 			const int iValue = GC.getGame().GetSettlerSiteEvaluator()->PlotFoundValue(pkPlot, &kPlayer);
 			sprintf_s(szBuffer, uiBufferLength, "%d", iValue);
 		}
@@ -3753,7 +3753,7 @@ bool CvGlobals::GetHexDebugLayerString(CvPlot* pkPlot, const char* szLayerName, 
 	{
 		if(ePlayer != NO_PLAYER)
 		{
-			CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+			CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 			const TeamTypes eTeam = kPlayer.getTeam();
 
 			if(pkPlot->isVisible(eTeam))
@@ -3766,7 +3766,7 @@ bool CvGlobals::GetHexDebugLayerString(CvPlot* pkPlot, const char* szLayerName, 
 	{
 		if(ePlayer != NO_PLAYER)
 		{
-			CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+			CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 			const TeamTypes eTeam = kPlayer.getTeam();
 			if(pkPlot->isRevealed(eTeam))
 			{
@@ -3779,7 +3779,7 @@ bool CvGlobals::GetHexDebugLayerString(CvPlot* pkPlot, const char* szLayerName, 
 	{
 		if(ePlayer != NO_PLAYER)
 		{
-			CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+			CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 			const int iValue = kPlayer.GetPlotDanger(*pkPlot);
 
 			sprintf_s(szBuffer, uiBufferLength, "%d", iValue);

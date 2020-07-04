@@ -11,7 +11,7 @@
 class CvDllPlayer : public ICvPlayer3
 {
 public:
-	CvDllPlayer(_In_ CvPlayerAI* pPlayer);
+	CvDllPlayer(_In_ CvPlayer* pPlayer);
 	~CvDllPlayer();
 
 	void* DLLCALL QueryInterface(GUID guidInterface);
@@ -23,7 +23,7 @@ public:
 	static void operator delete(void* p);
 	static void* operator new(size_t bytes);
 
-	CvPlayerAI* GetInstance();
+	CvPlayer* GetInstance();
 
 	void DLLCALL Init(PlayerTypes eID);
 	void DLLCALL SetupGraphical();
@@ -107,5 +107,5 @@ private:
 	void DLLCALL Destroy();
 
 	unsigned int m_uiRefCount;
-	CvPlayerAI* m_pPlayer;
+	CvPlayer* m_pPlayer;
 };

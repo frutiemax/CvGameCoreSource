@@ -1482,6 +1482,7 @@ public:
 	virtual void AI_chooseResearch() = 0;
 	virtual int AI_plotTargetMissionAIs(CvPlot* pPlot, MissionAITypes eMissionAI, int iRange = 0) = 0;
 	virtual void AI_launch(VictoryTypes eVictory) = 0;
+	virtual bool AI_captureUnit(UnitTypes eUnit, CvPlot* pPlot) = 0;
 
 	virtual OperationSlot PeekAtNextUnitToBuildForOperationSlot(int iAreaID) = 0;
 	virtual OperationSlot CityCommitToBuildUnitForOperationSlot(int iAreaID, int iTurns, CvCity* pCity) = 0;

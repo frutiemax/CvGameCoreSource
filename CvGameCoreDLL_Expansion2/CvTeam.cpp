@@ -571,7 +571,7 @@ void CvTeam::shareItems(TeamTypes eTeam)
 
 	for(iI = 0; iI < MAX_PLAYERS; iI++)
 	{
-		CvPlayerAI& kPlayer = GET_PLAYER(static_cast<PlayerTypes>(iI));
+		CvPlayer& kPlayer = GET_PLAYER(static_cast<PlayerTypes>(iI));
 		if(kPlayer.isAlive())
 		{
 			if(kPlayer.getTeam() == eTeam)
@@ -592,7 +592,7 @@ void CvTeam::shareItems(TeamTypes eTeam)
 									{
 										for(iK = 0; iK < MAX_PLAYERS; iK++)
 										{
-											CvPlayerAI& kOtherPlayer = GET_PLAYER(static_cast<PlayerTypes>(iK));
+											CvPlayer& kOtherPlayer = GET_PLAYER(static_cast<PlayerTypes>(iK));
 											if(kOtherPlayer.isAlive() && kOtherPlayer.getTeam() == m_eID)
 											{
 												kOtherPlayer.processBuilding(eBuilding, pLoopCity->GetCityBuildings()->GetNumBuilding(eBuilding), /*bFirst*/ false, pLoopCity->area());
@@ -708,7 +708,7 @@ void CvTeam::processBuilding(BuildingTypes eBuilding, int iChange, bool bFirst)
 	// Effects in every City on this Team
 	for(int iPlayerLoop = 0; iPlayerLoop < MAX_CIV_PLAYERS; iPlayerLoop++)
 	{
-		CvPlayerAI& kPlayer = GET_PLAYER((PlayerTypes) iPlayerLoop);
+		CvPlayer& kPlayer = GET_PLAYER((PlayerTypes) iPlayerLoop);
 		if(kPlayer.getTeam() == m_eID && kPlayer.isAlive())
 		{
 			CvCity* pLoopCity;
@@ -1064,13 +1064,13 @@ void CvTeam::DoDeclareWar(TeamTypes eTeam, bool bDefensivePact, bool bMinorAllyP
 			for(int iAttackingPlayer = 0; iAttackingPlayer < MAX_MAJOR_CIVS; iAttackingPlayer++)
 			{
 				PlayerTypes eAttackingPlayer = (PlayerTypes)iAttackingPlayer;
-				CvPlayerAI& kAttackingPlayer = GET_PLAYER(eAttackingPlayer);
+				CvPlayer& kAttackingPlayer = GET_PLAYER(eAttackingPlayer);
 				if(kAttackingPlayer.isAlive() && kAttackingPlayer.getTeam() == GetID())
 				{
 					for (int iDefendingPlayer = 0; iDefendingPlayer < MAX_MAJOR_CIVS; iDefendingPlayer++)
 					{
 						PlayerTypes eDefendingPlayer = (PlayerTypes)iDefendingPlayer;
-						CvPlayerAI& kDefendingPlayer = GET_PLAYER(eDefendingPlayer);
+						CvPlayer& kDefendingPlayer = GET_PLAYER(eDefendingPlayer);
 						if(kDefendingPlayer.isAlive() && kDefendingPlayer.getTeam() == eTeam)
 						{
 							// Forget any of that liberation crud!
@@ -1125,7 +1125,7 @@ void CvTeam::DoDeclareWar(TeamTypes eTeam, bool bDefensivePact, bool bMinorAllyP
 	{
 		for(iI = 0; iI < MAX_CIV_PLAYERS; iI++)
 		{
-			CvPlayerAI& kPlayer = GET_PLAYER((PlayerTypes)iI);
+			CvPlayer& kPlayer = GET_PLAYER((PlayerTypes)iI);
 			if(kPlayer.isAlive() && kPlayer.getTeam() == eTeam)
 				kPlayer.GetDiplomacyAI()->DoSomeoneDeclaredWarOnMe(GetID());
 		}
@@ -2067,7 +2067,7 @@ int CvTeam::getUnitClassMaking(UnitClassTypes eUnitClass) const
 
 	for(iI = 0; iI < MAX_PLAYERS; iI++)
 	{
-		CvPlayerAI& kPlayer = GET_PLAYER((PlayerTypes)iI);
+		CvPlayer& kPlayer = GET_PLAYER((PlayerTypes)iI);
 		if(kPlayer.isAlive())
 		{
 			if(kPlayer.getTeam() == m_eID)
@@ -2098,7 +2098,7 @@ int CvTeam::getBuildingClassMaking(BuildingClassTypes eBuildingClass) const
 
 	for(iI = 0; iI < MAX_PLAYERS; iI++)
 	{
-		CvPlayerAI& kPlayer = GET_PLAYER((PlayerTypes)iI);
+		CvPlayer& kPlayer = GET_PLAYER((PlayerTypes)iI);
 		if(kPlayer.isAlive())
 		{
 			if(kPlayer.getTeam() == m_eID)
@@ -2128,7 +2128,7 @@ int CvTeam::countNumUnitsByArea(CvArea* pArea) const
 
 	for(iI = 0; iI < MAX_PLAYERS; iI++)
 	{
-		CvPlayerAI& kPlayer = GET_PLAYER((PlayerTypes)iI);
+		CvPlayer& kPlayer = GET_PLAYER((PlayerTypes)iI);
 		if(kPlayer.isAlive())
 		{
 			if(kPlayer.getTeam() == m_eID)
@@ -2152,7 +2152,7 @@ int CvTeam::countNumCitiesByArea(CvArea* pArea) const
 
 	for(iI = 0; iI < MAX_PLAYERS; iI++)
 	{
-		CvPlayerAI& kPlayer = GET_PLAYER((PlayerTypes)iI);
+		CvPlayer& kPlayer = GET_PLAYER((PlayerTypes)iI);
 		if(kPlayer.isAlive())
 		{
 			if(kPlayer.getTeam() == m_eID)
@@ -2176,7 +2176,7 @@ int CvTeam::countTotalPopulationByArea(CvArea* pArea) const
 
 	for(iI = 0; iI < MAX_PLAYERS; iI++)
 	{
-		CvPlayerAI& kPlayer = GET_PLAYER((PlayerTypes)iI);
+		CvPlayer& kPlayer = GET_PLAYER((PlayerTypes)iI);
 		if(kPlayer.isAlive())
 		{
 			if(kPlayer.getTeam() == m_eID)
@@ -2403,7 +2403,7 @@ PlayerTypes CvTeam::getLeaderID() const
 
 	for(iI = 0; iI < MAX_PLAYERS; iI++)
 	{
-		CvPlayerAI& thisPlayer = GET_PLAYER((PlayerTypes)iI);
+		CvPlayer& thisPlayer = GET_PLAYER((PlayerTypes)iI);
 		if(thisPlayer.isAlive())
 		{
 			if(thisPlayer.getTeam() == m_eID)
@@ -2415,7 +2415,7 @@ PlayerTypes CvTeam::getLeaderID() const
 
 	for(iI = 0; iI < MAX_PLAYERS; iI++)
 	{
-		CvPlayerAI& thisPlayer = GET_PLAYER((PlayerTypes)iI);
+		CvPlayer& thisPlayer = GET_PLAYER((PlayerTypes)iI);
 		if(thisPlayer.getTeam() == m_eID)
 		{
 			return ((PlayerTypes)iI);
@@ -2461,7 +2461,7 @@ HandicapTypes CvTeam::getHandicapType() const
 
 	for(iI = 0; iI < MAX_PLAYERS; iI++)
 	{
-		CvPlayerAI& thisPlayer = GET_PLAYER((PlayerTypes)iI);
+		CvPlayer& thisPlayer = GET_PLAYER((PlayerTypes)iI);
 		if(thisPlayer.isAlive())
 		{
 			if(thisPlayer.getTeam() == m_eID)
@@ -2494,7 +2494,7 @@ CvString CvTeam::getName() const
 	for(int iI = 0; iI < MAX_PLAYERS; iI++)
 	{
 		const PlayerTypes ePlayer(static_cast<PlayerTypes>(iI));
-		CvPlayerAI& kPlayer(GET_PLAYER(ePlayer));
+		CvPlayer& kPlayer(GET_PLAYER(ePlayer));
 
 		if(kPlayer.isAlive() || kPlayer.isBeingResurrected())
 		{
@@ -2527,7 +2527,7 @@ CvString CvTeam::getNameKey() const
 	for(int iI = 0; iI < MAX_PLAYERS; iI++)
 	{
 		const PlayerTypes ePlayer(static_cast<PlayerTypes>(iI));
-		CvPlayerAI& kPlayer(GET_PLAYER(ePlayer));
+		CvPlayer& kPlayer(GET_PLAYER(ePlayer));
 
 		if(kPlayer.isAlive())
 		{
@@ -2787,7 +2787,7 @@ bool CvTeam::HavePolicyInTeam(PolicyTypes ePolicy)
 	for(int iI = 0; iI < MAX_PLAYERS; iI++)
 	{
 		const PlayerTypes ePlayer(static_cast<PlayerTypes>(iI));
-		CvPlayerAI& kPlayer(GET_PLAYER(ePlayer));
+		CvPlayer& kPlayer(GET_PLAYER(ePlayer));
 
 		if(kPlayer.isAlive())
 		{
@@ -3233,7 +3233,7 @@ void CvTeam::UpdateEmbarkGraphics()
 {
 	for(int iI = 0; iI < MAX_PLAYERS; iI++)
 	{
-		CvPlayerAI& kPlayer = GET_PLAYER((PlayerTypes)iI);
+		CvPlayer& kPlayer = GET_PLAYER((PlayerTypes)iI);
 		if(kPlayer.isAlive() && kPlayer.getTeam() == GetID())
 		{
 			int iLoop;
@@ -3561,7 +3561,7 @@ bool CvTeam::HasCommonEnemy(TeamTypes eOtherTeam) const
 
 	for(iI = 0; iI < MAX_MAJOR_CIVS; iI++)
 	{
-		CvPlayerAI& kEnemyPlayer = GET_PLAYER((PlayerTypes)iI);
+		CvPlayer& kEnemyPlayer = GET_PLAYER((PlayerTypes)iI);
 		TeamTypes eEnemyTeam = kEnemyPlayer.getTeam();
 		if(eEnemyTeam != m_eID && eEnemyTeam != eOtherTeam)
 		{
@@ -4361,14 +4361,14 @@ void CvTeam::changeProjectCount(ProjectTypes eIndex, int iChange)
 				const PlayerTypes eTeamLeader = getLeaderID();
 				GC.getGame().addReplayMessage(REPLAY_MESSAGE_MAJOR_EVENT, eTeamLeader, strSomeoneCompletesProject);
 
-				CvPlayerAI& playerWhoLeadsTeam = GET_PLAYER(eTeamLeader);
+				CvPlayer& playerWhoLeadsTeam = GET_PLAYER(eTeamLeader);
 				CvCity* pLeadersCapital = playerWhoLeadsTeam.getCapitalCity();
 
 
 				for(iI = 0; iI < MAX_MAJOR_CIVS; iI++)
 				{
 					const PlayerTypes ePlayer = static_cast<PlayerTypes>(iI);
-					CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+					CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 
 					if(kPlayer.isAlive())
 					{
@@ -4403,7 +4403,7 @@ void CvTeam::changeProjectCount(ProjectTypes eIndex, int iChange)
 		{
 			for(int iPlayerLoop = 0; iPlayerLoop < MAX_CIV_PLAYERS; iPlayerLoop++)
 			{
-				CvPlayerAI& kPlayer = GET_PLAYER((PlayerTypes) iPlayerLoop);
+				CvPlayer& kPlayer = GET_PLAYER((PlayerTypes) iPlayerLoop);
 				if(kPlayer.isAlive() && kPlayer.getTeam() == GetID())
 				{
 					kPlayer.changeNumResourceUsed((ResourceTypes) iResourceLoop, iChange * GC.getProjectInfo(eIndex)->GetResourceQuantityRequirement(iResourceLoop));
@@ -4592,7 +4592,7 @@ void CvTeam::enhanceBuilding(BuildingTypes eIndex, int iChange)
 	{
 		for(int i = 0; i < MAX_PLAYERS; i++)
 		{
-			CvPlayerAI& kPlayer = GET_PLAYER(static_cast<PlayerTypes>(i));
+			CvPlayer& kPlayer = GET_PLAYER(static_cast<PlayerTypes>(i));
 
 			if(kPlayer.isAlive())
 			{
@@ -4991,7 +4991,7 @@ void CvTeam::announceTechToPlayers(TechTypes eIndex, bool bPartial)
 	for(int iI = 0; iI < MAX_PLAYERS; iI++)
 	{
 		const PlayerTypes ePlayer = static_cast<PlayerTypes>(iI);
-		CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+		CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 
 		if(kPlayer.isAlive() && kPlayer.getTeam() == GetID())
 		{
@@ -5041,7 +5041,7 @@ void CvTeam::setHasTech(TechTypes eIndex, bool bNewValue, PlayerTypes ePlayer, b
 
 	if(GetTeamTechs()->HasTech(eIndex) != bNewValue)
 	{
-		CvPlayerAI& kResearchingPlayer = GET_PLAYER(ePlayer);
+		CvPlayer& kResearchingPlayer = GET_PLAYER(ePlayer);
 
 		if(	GC.getGame().getActivePlayer() == ePlayer &&
 			strcmp(pkTechInfo->GetType(), "TECH_SATELLITES") == 0 &&
@@ -5062,7 +5062,7 @@ void CvTeam::setHasTech(TechTypes eIndex, bool bNewValue, PlayerTypes ePlayer, b
 			for(int iI = 0; iI < MAX_PLAYERS; iI++)
 			{
 				const PlayerTypes eLoopPlayer = static_cast<PlayerTypes>(iI);
-				CvPlayerAI& kLoopPlayer = GET_PLAYER(eLoopPlayer);
+				CvPlayer& kLoopPlayer = GET_PLAYER(eLoopPlayer);
 				if(kLoopPlayer.isAlive() && kLoopPlayer.getTeam() == GetID())
 				{
 					kLoopPlayer.ChangeScoreFromFutureTech(iScoreChange);
@@ -5094,7 +5094,7 @@ void CvTeam::setHasTech(TechTypes eIndex, bool bNewValue, PlayerTypes ePlayer, b
 			for(int iI = 0; iI < MAX_PLAYERS; iI++)
 			{
 				const PlayerTypes eLoopPlayer = static_cast<PlayerTypes>(iI);
-				CvPlayerAI& kLoopPlayer = GET_PLAYER(eLoopPlayer);
+				CvPlayer& kLoopPlayer = GET_PLAYER(eLoopPlayer);
 				if(kLoopPlayer.isAlive() && kLoopPlayer.getTeam() == GetID())
 				{
 					for(pLoopCity = kLoopPlayer.firstCity(&iLoop); pLoopCity != NULL; pLoopCity = kLoopPlayer.nextCity(&iLoop))
@@ -5189,7 +5189,7 @@ void CvTeam::setHasTech(TechTypes eIndex, bool bNewValue, PlayerTypes ePlayer, b
 									for(int iI = 0; iI < MAX_PLAYERS; iI++)
 									{
 										const PlayerTypes eLoopPlayer = static_cast<PlayerTypes>(iI);
-										CvPlayerAI& kLoopPlayer = GET_PLAYER(eLoopPlayer);
+										CvPlayer& kLoopPlayer = GET_PLAYER(eLoopPlayer);
 										if(kLoopPlayer.isAlive() && kLoopPlayer.getTeam() == GetID() && pLoopPlot->getOwner() == eLoopPlayer)
 										{
 											// We now have a new Tech
@@ -5388,7 +5388,7 @@ void CvTeam::setHasTech(TechTypes eIndex, bool bNewValue, PlayerTypes ePlayer, b
 			for(int iI = 0; iI < MAX_PLAYERS; iI++)
 			{
 				const PlayerTypes eLoopPlayer = static_cast<PlayerTypes>(iI);
-				CvPlayerAI& kPlayer = GET_PLAYER(eLoopPlayer);
+				CvPlayer& kPlayer = GET_PLAYER(eLoopPlayer);
 				if(kPlayer.isAlive() && kPlayer.getTeam() == GetID())
 				{
 					if(kPlayer.GetPlayerTechs()->IsResearchingTech(eIndex))
@@ -5444,7 +5444,7 @@ void CvTeam::setHasTech(TechTypes eIndex, bool bNewValue, PlayerTypes ePlayer, b
 						for(int iI = 0; iI < MAX_PLAYERS; iI++)
 						{
 							const PlayerTypes eLoopPlayer = static_cast<PlayerTypes>(iI);
-							CvPlayerAI& kLoopPLayer = GET_PLAYER(eLoopPlayer);
+							CvPlayer& kLoopPLayer = GET_PLAYER(eLoopPlayer);
 							if(kLoopPLayer.isAlive() && GC.getGame().getActivePlayer())
 							{
 								if(isHasMet(kLoopPLayer.getTeam()))
@@ -5468,7 +5468,7 @@ void CvTeam::setHasTech(TechTypes eIndex, bool bNewValue, PlayerTypes ePlayer, b
 						for(int iI = 0; iI < MAX_PLAYERS; iI++)
 						{
 							const PlayerTypes eLoopPlayer = static_cast<PlayerTypes>(iI);
-							CvPlayerAI& kPlayer = GET_PLAYER(eLoopPlayer);
+							CvPlayer& kPlayer = GET_PLAYER(eLoopPlayer);
 							if(kPlayer.isAlive())
 							{
 								if(!(kPlayer.isHuman()))
@@ -6432,7 +6432,7 @@ void CvTeam::SetCurrentEra(EraTypes eNewValue)
 					//Notify Everyone
 					for(int iNotifyLoop = 0; iNotifyLoop < MAX_MAJOR_CIVS; ++iNotifyLoop){
 						PlayerTypes eNotifyPlayer = (PlayerTypes) iNotifyLoop;
-						CvPlayerAI& kCurNotifyPlayer = GET_PLAYER(eNotifyPlayer);
+						CvPlayer& kCurNotifyPlayer = GET_PLAYER(eNotifyPlayer);
 						CvNotifications* pNotifications = kCurNotifyPlayer.GetNotifications();
 						if(pNotifications && 
 							(kCurNotifyPlayer.getTeam() != GetID() || GC.getGame().isNetworkMultiPlayer()) &&
@@ -6445,7 +6445,7 @@ void CvTeam::SetCurrentEra(EraTypes eNewValue)
 							// Notify player has met this team
 							if(GET_TEAM(kCurNotifyPlayer.getTeam()).isHasMet(GetID()))
 							{
-								CvPlayerAI& player = GET_PLAYER(getLeaderID());
+								CvPlayer& player = GET_PLAYER(getLeaderID());
 								if(GC.getGame().isGameMultiPlayer() && player.isHuman())
 									strMessage << player.getNickName() << szEraTextKey;
 								else
@@ -6516,7 +6516,7 @@ void CvTeam::SetCurrentEra(EraTypes eNewValue)
 				for(int iPlayerLoop = 0; iPlayerLoop < MAX_CIV_PLAYERS; iPlayerLoop++)
 				{
 					ePlayer = (PlayerTypes) iPlayerLoop;
-					CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+					CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 					if(kPlayer.isAlive() && kPlayer.getTeam() == GetID() && !kPlayer.isMinorCiv() && !kPlayer.isBarbarian())
 					{
 						// provide the player with the extra spies according to their trait when they get their first spy
@@ -6546,7 +6546,7 @@ void CvTeam::SetCurrentEra(EraTypes eNewValue)
 				for(int iPlayerLoop = 0; iPlayerLoop < MAX_CIV_PLAYERS; iPlayerLoop++)
 				{
 					ePlayer = (PlayerTypes) iPlayerLoop;
-					CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+					CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 					if (kPlayer.isEverAlive() && !kPlayer.isBarbarian() && !kPlayer.isMinorCiv())
 					{
 						eTeam = kPlayer.getTeam();
@@ -6564,7 +6564,7 @@ void CvTeam::SetCurrentEra(EraTypes eNewValue)
 					for(int iPlayerLoop = 0; iPlayerLoop < MAX_CIV_PLAYERS; iPlayerLoop++)
 					{
 						ePlayer = (PlayerTypes) iPlayerLoop;
-						CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+						CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 						if(!kPlayer.isAlive() || kPlayer.isBarbarian() || kPlayer.isMinorCiv())
 						{
 							continue;
@@ -6593,7 +6593,7 @@ void CvTeam::SetCurrentEra(EraTypes eNewValue)
 		for(int iPlayerLoop = 0; iPlayerLoop < MAX_CIV_PLAYERS; iPlayerLoop++)
 		{
 			ePlayer = (PlayerTypes) iPlayerLoop;
-			CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+			CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 			if(kPlayer.isAlive() && kPlayer.getTeam() == GetID() && !kPlayer.isMinorCiv() && !kPlayer.isBarbarian())
 			{
 				int iNumFreePolicies = kPlayer.GetPlayerTraits()->GetFreeSocialPoliciesPerEra() > 0;
@@ -6628,7 +6628,7 @@ void CvTeam::SetCurrentEra(EraTypes eNewValue)
 		{
 			ePlayer = (PlayerTypes) iPlayerLoop;
 
-			CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+			CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 			if(kPlayer.isAlive() && kPlayer.getTeam() == GetID())
 			{
 				gDLL->GameplayEraChanged(ePlayer, eNewValue);

@@ -2762,7 +2762,7 @@ CvString CvPlayer::getNewCityName() const
 		for(int iI = 0; iI < MAX_PLAYERS; iI++)
 		{
 			const PlayerTypes ePlayer = static_cast<PlayerTypes>(iI);
-			CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+			CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 			if(ePlayer != GetID() && kPlayer.isAlive() && !kPlayer.isMinorCiv() && !kPlayer.isBarbarian())
 			{
 				iPlayersAlive++;
@@ -2775,7 +2775,7 @@ CvString CvPlayer::getNewCityName() const
 		for(int iI = 0; iI < MAX_PLAYERS; iI++)
 		{
 			const PlayerTypes ePlayer = static_cast<PlayerTypes>(iI);
-			CvPlayerAI &kPlayer = GET_PLAYER(ePlayer);
+			CvPlayer &kPlayer = GET_PLAYER(ePlayer);
 			if(ePlayer != GetID() && kPlayer.isAlive() && !kPlayer.isMinorCiv() && !kPlayer.isBarbarian())
 			{
 				if(iPlayersFound == iChosenPlayer)
@@ -3028,7 +3028,7 @@ void CvPlayer::DoLiberatePlayer(PlayerTypes ePlayer, int iOldCityID)
 			for(int iI = 0; iI < MAX_PLAYERS; iI++)
 			{
 				const PlayerTypes eOtherPlayer = static_cast<PlayerTypes>(iI);
-				CvPlayerAI& kOtherPlayer = GET_PLAYER(eOtherPlayer);
+				CvPlayer& kOtherPlayer = GET_PLAYER(eOtherPlayer);
 				if(kOtherPlayer.isAlive() && kOtherPlayer.GetNotifications() && iI != m_eID)
 				{
 					kOtherPlayer.GetNotifications()->Add(NOTIFICATION_RESURRECTED_MAJOR_CIV, strMessage.toUTF8(), strSummary.toUTF8(), pCity->getX(), pCity->getY(), -1);
@@ -3071,7 +3071,7 @@ void CvPlayer::DoLiberatePlayer(PlayerTypes ePlayer, int iOldCityID)
 			for(int iI = 0; iI < MAX_PLAYERS; iI++)
 			{
 				const PlayerTypes eOtherPlayer = static_cast<PlayerTypes>(iI);
-				CvPlayerAI& kOtherPlayer = GET_PLAYER(eOtherPlayer);
+				CvPlayer& kOtherPlayer = GET_PLAYER(eOtherPlayer);
 				if(kOtherPlayer.isAlive() && kOtherPlayer.GetNotifications() && iI != m_eID)
 				{
 					kOtherPlayer.GetNotifications()->Add(NOTIFICATION_LIBERATED_MAJOR_CITY, strMessage.toUTF8(), strSummary.toUTF8(), pCity->getX(), pCity->getY(), -1);
@@ -10557,7 +10557,7 @@ void CvPlayer::DoCityRevolt()
 		CvPlayer &kRecipient = GET_PLAYER(eRecipient);
 		for(int iNotifyLoop = 0; iNotifyLoop < MAX_MAJOR_CIVS; ++iNotifyLoop){
 			PlayerTypes eNotifyPlayer = (PlayerTypes) iNotifyLoop;
-			CvPlayerAI& kCurNotifyPlayer = GET_PLAYER(eNotifyPlayer);
+			CvPlayer& kCurNotifyPlayer = GET_PLAYER(eNotifyPlayer);
 			CvNotifications* pNotifications = kCurNotifyPlayer.GetNotifications();
 			if(pNotifications)
 			{
@@ -15598,7 +15598,7 @@ void CvPlayer::setAlive(bool bNewValue, bool bNotify)
 				for(iI = 0; iI < MAX_PLAYERS; iI++)
 				{
 					const PlayerTypes eOtherPlayer = static_cast<PlayerTypes>(iI);
-					CvPlayerAI& kOtherPlayer = GET_PLAYER(eOtherPlayer);
+					CvPlayer& kOtherPlayer = GET_PLAYER(eOtherPlayer);
 
 					if(kOtherPlayer.isAlive() && kOtherPlayer.GetNotifications())
 					{
@@ -23878,7 +23878,7 @@ void CvPlayer::DoAnnounceReligionAdoption()
 
 	for(int iI = 0; iI < MAX_PLAYERS; iI++)
 	{
-		CvPlayerAI& thisPlayer = GET_PLAYER((PlayerTypes)iI);
+		CvPlayer& thisPlayer = GET_PLAYER((PlayerTypes)iI);
 		if(thisPlayer.isHuman() && thisPlayer.isAlive() && thisPlayer.GetNotifications())
 		{
 			int iX = -1;

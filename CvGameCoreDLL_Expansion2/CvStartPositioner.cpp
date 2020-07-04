@@ -122,7 +122,7 @@ void CvStartPositioner::RankPlayerStartOrder()
 	// Add each player
 	for(int iI = 0; iI < MAX_CIV_PLAYERS; iI++)
 	{
-		CvPlayerAI& player = GET_PLAYER((PlayerTypes)iI);
+		CvPlayer& player = GET_PLAYER((PlayerTypes)iI);
 
 		if(player.isAlive())
 		{

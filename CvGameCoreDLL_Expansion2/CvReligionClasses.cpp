@@ -724,7 +724,7 @@ void CvGameReligions::FoundPantheon(PlayerTypes ePlayer, BeliefTypes eBelief)
 
 		for(int iNotifyLoop = 0; iNotifyLoop < MAX_MAJOR_CIVS; ++iNotifyLoop){
 			PlayerTypes eNotifyPlayer = (PlayerTypes) iNotifyLoop;
-			CvPlayerAI& kCurNotifyPlayer = GET_PLAYER(eNotifyPlayer);
+			CvPlayer& kCurNotifyPlayer = GET_PLAYER(eNotifyPlayer);
 			CvNotifications* pNotifications = kCurNotifyPlayer.GetNotifications();
 			if(pNotifications){
 				// Message slightly different for founder player
@@ -842,7 +842,7 @@ void CvGameReligions::FoundReligion(PlayerTypes ePlayer, ReligionTypes eReligion
 		//Notify the masses
 		for(int iNotifyLoop = 0; iNotifyLoop < MAX_MAJOR_CIVS; ++iNotifyLoop){
 			PlayerTypes eNotifyPlayer = (PlayerTypes) iNotifyLoop;
-			CvPlayerAI& kNotifyPlayer = GET_PLAYER(eNotifyPlayer);
+			CvPlayer& kNotifyPlayer = GET_PLAYER(eNotifyPlayer);
 			CvNotifications* pNotifications = kNotifyPlayer.GetNotifications();
 			if(pNotifications){
 				// Message slightly different for founder player
@@ -990,7 +990,7 @@ void CvGameReligions::EnhanceReligion(PlayerTypes ePlayer, ReligionTypes eReligi
 	//Notify the masses
 	for(int iNotifyLoop = 0; iNotifyLoop < MAX_MAJOR_CIVS; ++iNotifyLoop){
 		PlayerTypes eNotifyPlayer = (PlayerTypes) iNotifyLoop;
-		CvPlayerAI& kNotifyPlayer = GET_PLAYER(eNotifyPlayer);
+		CvPlayer& kNotifyPlayer = GET_PLAYER(eNotifyPlayer);
 		CvNotifications* pNotifications = kNotifyPlayer.GetNotifications();
 		if(pNotifications){
 			Localization::String strSummary = Localization::Lookup("TXT_KEY_NOTIFICATION_RELIGION_ENHANCED_S");
@@ -1090,7 +1090,7 @@ void CvGameReligions::AddReformationBelief(PlayerTypes ePlayer, ReligionTypes eR
 	//Notify the masses
 	for(int iNotifyLoop = 0; iNotifyLoop < MAX_MAJOR_CIVS; ++iNotifyLoop){
 		PlayerTypes eNotifyPlayer = (PlayerTypes) iNotifyLoop;
-		CvPlayerAI& kNotifyPlayer = GET_PLAYER(eNotifyPlayer);
+		CvPlayer& kNotifyPlayer = GET_PLAYER(eNotifyPlayer);
 		CvNotifications* pNotifications = kNotifyPlayer.GetNotifications();
 		if(pNotifications){
 			Localization::String strSummary = Localization::Lookup("TXT_KEY_NOTIFICATION_REFORMATION_BELIEF_ADDED_S");
@@ -3676,7 +3676,7 @@ void CvCityReligions::CityConvertsReligion(ReligionTypes eMajority, ReligionType
 
 		// Notification if the player's city was converted to a religion they didn't found
 		PlayerTypes eOwnerPlayer = m_pCity->getOwner();
-		CvPlayerAI& kOwnerPlayer = GET_PLAYER(eOwnerPlayer);
+		CvPlayer& kOwnerPlayer = GET_PLAYER(eOwnerPlayer);
 		const ReligionTypes eOwnerPlayerReligion = kOwnerPlayer.GetReligions()->GetReligionCreatedByPlayer();
 
 		if(eOwnerPlayer != eResponsibleParty && eMajority != eOldMajority && pNewReligion->m_eFounder != eOwnerPlayer
@@ -3754,7 +3754,7 @@ void CvCityReligions::CityConvertsReligion(ReligionTypes eMajority, ReligionType
 				bool bSpreadToAllCapitals = true;
 				for(int i = 0; i < MAX_MAJOR_CIVS; ++i)
 				{
-					CvPlayerAI& kPlayer = GET_PLAYER(static_cast<PlayerTypes>(i));
+					CvPlayer& kPlayer = GET_PLAYER(static_cast<PlayerTypes>(i));
 					if(kPlayer.isAlive())
 					{
 						CvCity* pCapital = kPlayer.getCapitalCity();

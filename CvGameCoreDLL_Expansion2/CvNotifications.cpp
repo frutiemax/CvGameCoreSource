@@ -1483,7 +1483,7 @@ bool CvNotifications::IsNotificationExpired(int iIndex)
 
 	case NOTIFICATION_TECH:
 	{
-		CvPlayerAI& kPlayer = GET_PLAYER(m_ePlayer);
+		CvPlayer& kPlayer = GET_PLAYER(m_ePlayer);
 		CvPlayerTechs* pkPlayerTechs = kPlayer.GetPlayerTechs();
 		if(pkPlayerTechs->GetCurrentResearch() != NO_TECH)
 		{
@@ -1514,7 +1514,7 @@ bool CvNotifications::IsNotificationExpired(int iIndex)
 	break;
 	case NOTIFICATION_FREE_TECH:
 	{
-		CvPlayerAI& kPlayer = GET_PLAYER(m_ePlayer);
+		CvPlayer& kPlayer = GET_PLAYER(m_ePlayer);
 		if(kPlayer.GetNumFreeTechs() == 0)
 		{
 			return true;

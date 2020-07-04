@@ -807,7 +807,7 @@ void CvCityStrategyAI::ChooseProduction(bool bUseAsyncRandom, BuildingTypes eIgn
 		m_Buildables.push_back (buildable, iTempWeight);
 	}
 
-	CvPlayerAI& kPlayer = GET_PLAYER(m_pCity->getOwner());
+	CvPlayer& kPlayer = GET_PLAYER(m_pCity->getOwner());
 	CvDiplomacyAI* pDiploAI = kPlayer.GetDiplomacyAI();
 
 	// Loop through adding the available buildings

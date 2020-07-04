@@ -3817,7 +3817,7 @@ void CvHomelandAI::ExecuteGeneralMoves()
 		if (pUnit->GetGreatPeopleDirective() == GREAT_PEOPLE_DIRECTIVE_USE_POWER)
 		{
 			int iValue = 0;
-			CvPlot* pTargetPlot = GET_PLAYER(m_pPlayer->GetID()).FindBestArtistTargetPlot(pUnit.pointer(), iValue);
+			CvPlot* pTargetPlot = dynamic_cast<CvPlayerAI&>(GET_PLAYER(m_pPlayer->GetID())).FindBestArtistTargetPlot(pUnit.pointer(), iValue);
 			if(pTargetPlot)
 			{
 				if(pUnit->plot() == pTargetPlot)

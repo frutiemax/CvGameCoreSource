@@ -4453,7 +4453,7 @@ int CvLuaUnit::lExecuteSpecialExploreMove(lua_State* L)
 	CvUnit* pkUnit = GetInstance(L);
 	CvPlot* pkPlot = CvLuaPlot::GetInstance(L, 2, false);
 
-	CvPlayerAI& kPlayer = GET_PLAYER(pkUnit->getOwner());
+	CvPlayer& kPlayer = GET_PLAYER(pkUnit->getOwner());
 
 	const bool bResult = kPlayer.GetHomelandAI()->ExecuteSpecialExploreMove(pkUnit, pkPlot);
 	lua_pushboolean(L, bResult);

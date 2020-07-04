@@ -1354,7 +1354,7 @@ int CvPlayerTechs::GetResearchTurnsLeftTimes100(TechTypes eTech, bool bOverflow)
 
 	for(iI = 0; iI < MAX_PLAYERS; iI++)
 	{
-		CvPlayerAI& kPlayer = GET_PLAYER((PlayerTypes)iI);
+		CvPlayer& kPlayer = GET_PLAYER((PlayerTypes)iI);
 		if(kPlayer.isAlive())
 		{
 			// Find everyone on our team
@@ -1978,7 +1978,7 @@ void CvTeamTechs::SetResearchProgressTimes100(TechTypes eIndex, int iNewValue, P
 			for(int iPlayerLoop = 0; iPlayerLoop < MAX_MAJOR_CIVS; iPlayerLoop++)
 			{
 				eLoopPlayer = (PlayerTypes) iPlayerLoop;
-				CvPlayerAI& kLoopPlayer = GET_PLAYER(eLoopPlayer);
+				CvPlayer& kLoopPlayer = GET_PLAYER(eLoopPlayer);
 
 				if(kLoopPlayer.getTeam() == eTeamID)
 				{

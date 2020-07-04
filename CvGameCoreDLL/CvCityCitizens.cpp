@@ -239,7 +239,7 @@ void CvCityCitizens::DoTurn()
 {
 	DoVerifyWorkingPlots();
 
-	CvPlayerAI& thisPlayer = GET_PLAYER(GetOwner());
+	CvPlayer& thisPlayer = GET_PLAYER(GetOwner());
 
 	if (m_pCity->IsPuppet())
 	{

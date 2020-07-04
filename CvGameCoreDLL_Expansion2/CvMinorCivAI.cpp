@@ -2706,7 +2706,7 @@ void CvMinorCivAI::DoTestProxyWarAnnouncement()
 {
 	for(int iNotifyLoop = 0; iNotifyLoop < MAX_MAJOR_CIVS; ++iNotifyLoop){
 		PlayerTypes eNotifyPlayer = (PlayerTypes) iNotifyLoop;
-		CvPlayerAI& kCurNotifyPlayer = GET_PLAYER(eNotifyPlayer);
+		CvPlayer& kCurNotifyPlayer = GET_PLAYER(eNotifyPlayer);
 		CvTeam* pNotifyTeam = &GET_TEAM(kCurNotifyPlayer.getTeam());
 		if (!pNotifyTeam->isHasMet(GetPlayer()->getTeam()))
 		{
@@ -5656,7 +5656,7 @@ void CvMinorCivAI::SetAlly(PlayerTypes eNewAlly)
 	// Seed the GP counter?
 	if(eNewAlly != NO_PLAYER)
 	{
-		CvPlayerAI& kNewAlly = GET_PLAYER(eNewAlly);
+		CvPlayer& kNewAlly = GET_PLAYER(eNewAlly);
 
 		// share the visibility with my ally (and his team-mates)
 		for(int iI = 0; iI < iNumPlots; iI++)
@@ -5698,7 +5698,7 @@ void CvMinorCivAI::SetAlly(PlayerTypes eNewAlly)
 	// Declare war on Ally's enemies
 	if(eNewAlly != NO_PLAYER)
 	{
-		CvPlayerAI& kNewAlly = GET_PLAYER(eNewAlly);
+		CvPlayer& kNewAlly = GET_PLAYER(eNewAlly);
 		CvTeam& kNewAllyTeam = GET_TEAM(kNewAlly.getTeam());
 		CvTeam& kOurTeam = GET_TEAM(GetPlayer()->getTeam());
 
@@ -6038,7 +6038,7 @@ void CvMinorCivAI::DoSetBonus(PlayerTypes ePlayer, bool bAdd, bool bFriends, boo
 
 	for(int iNotifyLoop = 0; iNotifyLoop < MAX_MAJOR_CIVS; ++iNotifyLoop){
 		PlayerTypes eNotifyPlayer = (PlayerTypes) iNotifyLoop;
-		CvPlayerAI& kCurNotifyPlayer = GET_PLAYER(eNotifyPlayer);
+		CvPlayer& kCurNotifyPlayer = GET_PLAYER(eNotifyPlayer);
 		CvTeam* pNotifyTeam = &GET_TEAM(kCurNotifyPlayer.getTeam());
 		TeamTypes eNewAllyTeam = GET_PLAYER(ePlayer).getTeam();
 		const char* strNewBestPlayersNameKey;
@@ -7725,7 +7725,7 @@ void CvMinorCivAI::DoBuyout(PlayerTypes eMajor)
 
 	
 
-	CvPlayerAI& kMajorPlayer = GET_PLAYER(eMajor);
+	CvPlayer& kMajorPlayer = GET_PLAYER(eMajor);
 	kMajorPlayer.GetPlayerAchievements().BoughtCityState(iNumUnits);
 }
 
@@ -9350,7 +9350,7 @@ TechTypes CvMinorCivAI::GetGoodTechPlayerDoesntHave(PlayerTypes ePlayer, int iRo
 	int iValue, iProgress;
 
 
-	CvPlayerAI& kPlayer = GET_PLAYER(ePlayer);
+	CvPlayer& kPlayer = GET_PLAYER(ePlayer);
 	CvTeam kTeam = GET_TEAM(kPlayer.getTeam());
 
 	for(int iTechLoop = 0; iTechLoop < GC.getNumTechInfos(); iTechLoop++)

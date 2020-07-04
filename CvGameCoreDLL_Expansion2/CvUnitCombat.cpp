@@ -324,13 +324,13 @@ void CvUnitCombat::ResolveMeleeCombat(const CvCombatInfo& kCombatInfo, uint uiPa
 		bAttackerDead = (pkAttacker->getDamage() >= GC.getMAX_HIT_POINTS());
 		bDefenderDead = (pkDefender->getDamage() >= GC.getMAX_HIT_POINTS());
 
-		CvPlayerAI& kAttackerOwner = GET_PLAYER(pkAttacker->getOwner());
+		CvPlayer& kAttackerOwner = GET_PLAYER(pkAttacker->getOwner());
 		kAttackerOwner.GetPlayerAchievements().AttackedUnitWithUnit(pkAttacker, pkDefender);
 
 		// Attacker died
 		if(bAttackerDead)
 		{
-			CvPlayerAI& kDefenderOwner = GET_PLAYER(pkDefender->getOwner());
+			CvPlayer& kDefenderOwner = GET_PLAYER(pkDefender->getOwner());
 			kDefenderOwner.GetPlayerAchievements().KilledUnitWithUnit(pkDefender, pkAttacker);
 
 			auto_ptr<ICvUnit1> pAttacker = GC.WrapUnitPointer(pkAttacker);
@@ -733,7 +733,7 @@ void CvUnitCombat::ResolveRangedUnitVsCombat(const CvCombatInfo& kCombatInfo, ui
 
 						bTargetDied = true;
 
-						CvPlayerAI& kAttackerOwner = GET_PLAYER(pkAttacker->getOwner());
+						CvPlayer& kAttackerOwner = GET_PLAYER(pkAttacker->getOwner());
 						kAttackerOwner.GetPlayerAchievements().KilledUnitWithUnit(pkAttacker, pkDefender);
 
 						ApplyPostCombatTraitEffects(pkAttacker, pkDefender);
@@ -1349,7 +1349,7 @@ void CvUnitCombat::ResolveAirUnitVsCombat(const CvCombatInfo& kCombatInfo, uint 
 						auto_ptr<ICvUnit1> pAttacker = GC.WrapUnitPointer(pkAttacker);
 						gDLL->GameplayUnitDestroyedInCombat(pAttacker.get());
 
-						CvPlayerAI& kDefenderOwner = GET_PLAYER(pkDefender->getOwner());
+						CvPlayer& kDefenderOwner = GET_PLAYER(pkDefender->getOwner());
 						kDefenderOwner.GetPlayerAchievements().KilledUnitWithUnit(pkDefender, pkAttacker);
 
 						if(iActivePlayerID == pkAttacker->getOwner())
@@ -1376,7 +1376,7 @@ void CvUnitCombat::ResolveAirUnitVsCombat(const CvCombatInfo& kCombatInfo, uint 
 					// Defender died
 					else if(pkDefender->IsDead())
 					{
-						CvPlayerAI& kAttackerOwner = GET_PLAYER(pkAttacker->getOwner());
+						CvPlayer& kAttackerOwner = GET_PLAYER(pkAttacker->getOwner());
 						kAttackerOwner.GetPlayerAchievements().KilledUnitWithUnit(pkAttacker, pkDefender);
 
 						if(iActivePlayerID == pkAttacker->getOwner())
@@ -2216,7 +2216,7 @@ void CvUnitCombat::ResolveNuclearCombat(const CvCombatInfo& kCombatInfo, uint ui
 
 					if(GC.getGame().getGameTurnYear() == 2012)
 					{
-						CvPlayerAI& kPlayer = GET_PLAYER(GC.getGame().getActivePlayer());
+						CvPlayer& kPlayer = GET_PLAYER(GC.getGame().getActivePlayer());
 						if(strncmp(kPlayer.getCivilizationTypeKey(), "CIVILIZATION_MAYA", 32) == 0)
 						{
 							gDLL->UnlockAchievement(ACHIEVEMENT_XP1_36);

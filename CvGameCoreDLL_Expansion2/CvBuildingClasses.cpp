@@ -2680,7 +2680,7 @@ void CvCityBuildings::SetNumRealBuildingTimed(BuildingTypes eIndex, int iNewValu
 						// Wonder notification for all other players
 						for(int iI = 0; iI < MAX_MAJOR_CIVS; iI++)
 						{
-							CvPlayerAI& thisPlayer = GET_PLAYER((PlayerTypes)iI);
+							CvPlayer& thisPlayer = GET_PLAYER((PlayerTypes)iI);
 							if(thisPlayer.isAlive())
 							{
 								// Owner already got his messaging
