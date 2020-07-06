@@ -19,7 +19,7 @@ class CvEventTriggerInfo;
 class CvPlayerAI : public CvPlayer
 {
 public:
-	CvPlayerAI();
+	CvPlayerAI(bool oldBehaviour = false);
 	virtual ~CvPlayerAI();
 
 	// inlined for performance reasons
@@ -94,7 +94,7 @@ public:
 	virtual void Write(FDataStream& kStream) const;
 
 protected:
-
+	bool _oldBehaviour;
 	static CvPlayerAI* m_aPlayers;
 
 	void AI_doResearch();

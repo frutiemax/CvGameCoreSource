@@ -19061,6 +19061,20 @@ int CvPlayer::getNumUnits() const
 	return m_units.GetCount();
 }
 
+int CvPlayer::getNumSettlers() const
+{
+	int settlers = 0;
+
+	const CvUnit* pLoopUnit;
+	int iLoop;
+	for (pLoopUnit = firstUnit(&iLoop); pLoopUnit; pLoopUnit = nextUnit(&iLoop))
+	{
+		if (pLoopUnit->isFound())
+			settlers++;
+	}
+	return settlers;
+}
+
 
 //	--------------------------------------------------------------------------------
 const CvUnit* CvPlayer::getUnit(int iID) const

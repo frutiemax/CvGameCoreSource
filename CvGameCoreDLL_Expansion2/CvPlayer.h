@@ -1215,6 +1215,7 @@ public:
 
 	// unit iteration
 	int getNumUnits() const;
+	int getNumSettlers() const;
 	const CvUnit* firstUnit(int* pIterIdx, bool bRev=false) const;
 	const CvUnit* nextUnit(int* pIterIdx, bool bRev=false) const;
 	const CvUnit* getUnit(int iID) const;

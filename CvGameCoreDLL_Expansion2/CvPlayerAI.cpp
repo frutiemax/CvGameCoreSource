@@ -55,7 +55,8 @@ void CvPlayerAI::freeStatics()
 }
 
 // Public Functions...
-CvPlayerAI::CvPlayerAI()
+CvPlayerAI::CvPlayerAI(bool oldBehaviour):
+	_oldBehaviour(oldBehaviour)
 {
 	AI_reset();
 }
@@ -85,20 +86,26 @@ void CvPlayerAI::AI_reset()
 
 void CvPlayerAI::AI_doTurnPre()
 {
-	AI_PERF_FORMAT("AI-perf.csv", ("CvPlayerAI::AI_doTurnPre, Turn %03d, %s", GC.getGame().getElapsedGameTurns(), getCivilizationShortDescription()) );
+	AI_PERF_FORMAT("AI-perf.csv", ("CvPlayerAI::AI_doTurnPre, Turn %03d, %s", GC.getGame().getElapsedGameTurns(), getCivilizationShortDescription()));
 	CvAssertMsg(getPersonalityType() != NO_LEADER, "getPersonalityType() is not expected to be equal with NO_LEADER");
 	CvAssertMsg(getLeaderType() != NO_LEADER, "getLeaderType() is not expected to be equal with NO_LEADER");
 	CvAssertMsg(getCivilizationType() != NO_CIVILIZATION, "getCivilizationType() is not expected to be equal with NO_CIVILIZATION");
 
-	if(isHuman())
+	if (isHuman())
 	{
 		return;
 	}
 
 	AI_updateFoundValues();
-
-	AI_doResearch();
-	AI_considerAnnex();
+	if (_oldBehaviour || isBarbarian() || isMinorCiv())
+	{
+		AI_doResearch();
+		AI_considerAnnex();
+	}
+	else
+	{
+		//TO-DO
+	}
 }
 
 
@@ -120,14 +127,21 @@ void CvPlayerAI::AI_doTurnPost()
 		return;
 	}
 
-	for(int i = 0; i < GC.getNumVictoryInfos(); ++i)
+	if (_oldBehaviour)
 	{
-		AI_launch((VictoryTypes)i);
-	}
+		for (int i = 0; i < GC.getNumVictoryInfos(); ++i)
+		{
+			AI_launch((VictoryTypes)i);
+		}
 
-	ProcessGreatPeople();
-	GetEspionageAI()->DoTurn();
-	GetTradeAI()->DoTurn();
+		ProcessGreatPeople();
+		GetEspionageAI()->DoTurn();
+		GetTradeAI()->DoTurn();
+	}
+	else
+	{
+		//TO-DO
+	}
 }
 
 
@@ -149,15 +163,22 @@ void CvPlayerAI::AI_doTurnUnitsPre()
 
 void CvPlayerAI::AI_doTurnUnitsPost()
 {
-	CvUnit* pLoopUnit;
-	int iLoop;
-
-	if(!isHuman())
+	if (_oldBehaviour || isBarbarian() || isMinorCiv())
 	{
-		for(pLoopUnit = firstUnit(&iLoop); pLoopUnit != NULL; pLoopUnit = nextUnit(&iLoop))
+		CvUnit* pLoopUnit;
+		int iLoop;
+
+		if (!isHuman())
 		{
-			pLoopUnit->AI_promote();
+			for (pLoopUnit = firstUnit(&iLoop); pLoopUnit != NULL; pLoopUnit = nextUnit(&iLoop))
+			{
+				pLoopUnit->AI_promote();
+			}
 		}
+	}
+	else
+	{
+
 	}
 }
 
@@ -243,31 +264,38 @@ void CvPlayerAI::AI_unitUpdate()
 		return;
 	}
 
-	if(isHuman())
+	if (_oldBehaviour || isMinorCiv() || isBarbarian())
 	{
-		CvUnit::dispatchingNetMessage(true);
-		// The homeland AI goes first.
-		GetHomelandAI()->FindAutomatedUnits();
-		GetHomelandAI()->Update();
-		CvUnit::dispatchingNetMessage(false);
+		if (isHuman())
+		{
+			CvUnit::dispatchingNetMessage(true);
+			// The homeland AI goes first.
+			GetHomelandAI()->FindAutomatedUnits();
+			GetHomelandAI()->Update();
+			CvUnit::dispatchingNetMessage(false);
+		}
+		else
+		{
+			// Update tactical AI
+			GetTacticalAI()->CommandeerUnits();
+
+			// Now let the tactical AI run.  Putting it after the operations update allows units who have
+			// just been handed off to the tactical AI to get a move in the same turn they switch between
+			// AI subsystems
+			GetTacticalAI()->Update();
+
+			// Skip homeland AI processing if a barbarian
+			if (m_eID != BARBARIAN_PLAYER)
+			{
+				// Now its the homeland AI's turn.
+				GetHomelandAI()->RecruitUnits();
+				GetHomelandAI()->Update();
+			}
+		}
 	}
 	else
 	{
-		// Update tactical AI
-		GetTacticalAI()->CommandeerUnits();
 
-		// Now let the tactical AI run.  Putting it after the operations update allows units who have
-		// just been handed off to the tactical AI to get a move in the same turn they switch between
-		// AI subsystems
-		GetTacticalAI()->Update();
-
-		// Skip homeland AI processing if a barbarian
-		if(m_eID != BARBARIAN_PLAYER)
-		{
-			// Now its the homeland AI's turn.
-			GetHomelandAI()->RecruitUnits();
-			GetHomelandAI()->Update();
-		}
 	}
 
 	GC.getPathFinder().SetMPCacheSafe(bCommonPathFinderMPCaching);
@@ -281,110 +309,126 @@ void CvPlayerAI::AI_unitUpdate()
 
 void CvPlayerAI::AI_conquerCity(CvCity* pCity, PlayerTypes eOldOwner)
 {
-	PlayerTypes eOriginalOwner = pCity->getOriginalOwner();
-	TeamTypes eOldOwnerTeam = GET_PLAYER(eOldOwner).getTeam();
-
-	// Liberate a city?
-	if(eOriginalOwner != eOldOwner && eOriginalOwner != GetID() && CanLiberatePlayerCity(eOriginalOwner))
+	if (_oldBehaviour || isMinorCiv() || isBarbarian())
 	{
-		// minor civ
-		if(GET_PLAYER(eOriginalOwner).isMinorCiv())
+		PlayerTypes eOriginalOwner = pCity->getOriginalOwner();
+		TeamTypes eOldOwnerTeam = GET_PLAYER(eOldOwner).getTeam();
+
+		// Liberate a city?
+		if (eOriginalOwner != eOldOwner && eOriginalOwner != GetID() && CanLiberatePlayerCity(eOriginalOwner))
 		{
-			if(GetDiplomacyAI()->DoPossibleMinorLiberation(eOriginalOwner, pCity->GetID()))
-				return;
-		}
-		else // major civ
-		{
-			bool bLiberate = false;
-			if (GET_PLAYER(eOriginalOwner).isAlive())
+			// minor civ
+			if (GET_PLAYER(eOriginalOwner).isMinorCiv())
 			{
-				// If the original owner and this player have a defensive pact
-				// and both the original owner and the player are at war with the old owner of this city
-				// give the city back to the original owner
-				TeamTypes eOriginalOwnerTeam = GET_PLAYER(eOriginalOwner).getTeam();
-				if (GET_TEAM(getTeam()).IsHasDefensivePact(eOriginalOwnerTeam) && GET_TEAM(getTeam()).isAtWar(eOldOwnerTeam) && GET_TEAM(eOriginalOwnerTeam).isAtWar(eOldOwnerTeam))
+				if (GetDiplomacyAI()->DoPossibleMinorLiberation(eOriginalOwner, pCity->GetID()))
+					return;
+			}
+			else // major civ
+			{
+				bool bLiberate = false;
+				if (GET_PLAYER(eOriginalOwner).isAlive())
+				{
+					// If the original owner and this player have a defensive pact
+					// and both the original owner and the player are at war with the old owner of this city
+					// give the city back to the original owner
+					TeamTypes eOriginalOwnerTeam = GET_PLAYER(eOriginalOwner).getTeam();
+					if (GET_TEAM(getTeam()).IsHasDefensivePact(eOriginalOwnerTeam) && GET_TEAM(getTeam()).isAtWar(eOldOwnerTeam) && GET_TEAM(eOriginalOwnerTeam).isAtWar(eOldOwnerTeam))
+					{
+						bLiberate = true;
+					}
+					// if the player is a friend and we're going for diplo victory, then liberate to score some friend points
+					else if (GetDiplomacyAI()->IsDoFAccepted(eOriginalOwner) && GetDiplomacyAI()->IsGoingForDiploVictory())
+					{
+						bLiberate = true;
+					}
+				}
+				// if the player isn't human and we're going for diplo victory, resurrect players to get super diplo bonuses
+				else if (!GET_PLAYER(eOriginalOwner).isHuman() && GetDiplomacyAI()->IsGoingForDiploVictory())
 				{
 					bLiberate = true;
 				}
-				// if the player is a friend and we're going for diplo victory, then liberate to score some friend points
-				else if (GetDiplomacyAI()->IsDoFAccepted(eOriginalOwner) && GetDiplomacyAI()->IsGoingForDiploVictory())
+
+				if (bLiberate)
 				{
-					bLiberate = true;
+					DoLiberatePlayer(eOriginalOwner, pCity->GetID());
+					return;
 				}
 			}
-			// if the player isn't human and we're going for diplo victory, resurrect players to get super diplo bonuses
-			else if (!GET_PLAYER(eOriginalOwner).isHuman() && GetDiplomacyAI()->IsGoingForDiploVictory())
-			{
-				bLiberate = true;
-			}
+		}
 
-			if (bLiberate)
+		// Do we want to burn this city down?
+		if (canRaze(pCity))
+		{
+			// Burn the city if the empire is unhappy - keeping the city will only make things worse or if map hint dictates
+			// Huns will burn down everything possible once they have a core of a few cities (was 3, but this put Attila out of the running long term as a conqueror)
+			if (IsEmpireUnhappy() || (GC.getMap().GetAIMapHint() & 2) || (GetPlayerTraits()->GetRazeSpeedModifier() > 0 && getNumCities() >= 3 + (GC.getGame().getGameTurn() / 100)))
 			{
-				DoLiberatePlayer(eOriginalOwner, pCity->GetID());
+				pCity->doTask(TASK_RAZE);
 				return;
 			}
 		}
-	}
 
-	// Do we want to burn this city down?
-	if(canRaze(pCity))
-	{
-		// Burn the city if the empire is unhappy - keeping the city will only make things worse or if map hint dictates
-		// Huns will burn down everything possible once they have a core of a few cities (was 3, but this put Attila out of the running long term as a conqueror)
-		if (IsEmpireUnhappy() || (GC.getMap().GetAIMapHint() & 2) || (GetPlayerTraits()->GetRazeSpeedModifier() > 0 && getNumCities() >= 3 + (GC.getGame().getGameTurn() / 100)) )
+		// Puppet the city
+		if (pCity->getOriginalOwner() != GetID() || GET_PLAYER(m_eID).GetPlayerTraits()->IsNoAnnexing())
 		{
-			pCity->doTask(TASK_RAZE);
-			return;
+			pCity->DoCreatePuppet();
 		}
 	}
-
-	// Puppet the city
-	if(pCity->getOriginalOwner() != GetID() || GET_PLAYER(m_eID).GetPlayerTraits()->IsNoAnnexing())
+	else
 	{
-		pCity->DoCreatePuppet();
+
 	}
+	
 }
 
 bool CvPlayerAI::AI_captureUnit(UnitTypes, CvPlot* pPlot)
 {
-	CvCity* pNearestCity;
-
-	CvAssert(!isHuman());
-
-	// Barbs always capture
-	if (isBarbarian())
-		return true;
-
-	// we own it
-	if (pPlot->getTeam() == getTeam())
-		return true;
-
-	// no man's land - may as well
-	if (pPlot->getTeam() == NO_TEAM)
-		return true;
-
-	// friendly, sure (okay, this is pretty much just means open borders)
-	if (pPlot->IsFriendlyTerritory(GetID()))
-		return true;
-
-	// not friendly, but "near" us
-	pNearestCity = GC.getMap().findCity(pPlot->getX(), pPlot->getY(), NO_PLAYER, getTeam());
-	if (pNearestCity != NULL)
+	if (_oldBehaviour || isMinorCiv() || isBarbarian())
 	{
-		if (plotDistance(pPlot->getX(), pPlot->getY(), pNearestCity->getX(), pNearestCity->getY()) <= 7)
+		CvCity* pNearestCity;
+
+		CvAssert(!isHuman());
+
+		// Barbs always capture
+		if (isBarbarian())
 			return true;
-	}
 
-	// very near someone we aren't friends with (and far from our nearest city)
-	pNearestCity = GC.getMap().findCity(pPlot->getX(), pPlot->getY());
-	if (pNearestCity != NULL)
+		// we own it
+		if (pPlot->getTeam() == getTeam())
+			return true;
+
+		// no man's land - may as well
+		if (pPlot->getTeam() == NO_TEAM)
+			return true;
+
+		// friendly, sure (okay, this is pretty much just means open borders)
+		if (pPlot->IsFriendlyTerritory(GetID()))
+			return true;
+
+		// not friendly, but "near" us
+		pNearestCity = GC.getMap().findCity(pPlot->getX(), pPlot->getY(), NO_PLAYER, getTeam());
+		if (pNearestCity != NULL)
+		{
+			if (plotDistance(pPlot->getX(), pPlot->getY(), pNearestCity->getX(), pNearestCity->getY()) <= 7)
+				return true;
+		}
+
+		// very near someone we aren't friends with (and far from our nearest city)
+		pNearestCity = GC.getMap().findCity(pPlot->getX(), pPlot->getY());
+		if (pNearestCity != NULL)
+		{
+			if (plotDistance(pPlot->getX(), pPlot->getY(), pNearestCity->getX(), pNearestCity->getY()) <= 4)
+				return false;
+		}
+
+		// I'd rather we grab it and run than destroy it
+		return true;
+	}
+	else
 	{
-		if (plotDistance(pPlot->getX(), pPlot->getY(), pNearestCity->getX(), pNearestCity->getY()) <= 4)
-			return false;
+		return true;
 	}
-
-	// I'd rather we grab it and run than destroy it
-	return true;
+	
 }
 
 int CvPlayerAI::AI_foundValue(int iX, int iY, int, bool bStartingLoc)
@@ -410,116 +454,140 @@ int CvPlayerAI::AI_foundValue(int iX, int iY, int, bool bStartingLoc)
 
 void CvPlayerAI::AI_chooseFreeGreatPerson()
 {
-	while(GetNumFreeGreatPeople() > 0)
+	if (_oldBehaviour || isBarbarian() || isMinorCiv())
 	{
-		UnitTypes eDesiredGreatPerson = NO_UNIT;
+		while (GetNumFreeGreatPeople() > 0)
+		{
+			UnitTypes eDesiredGreatPerson = NO_UNIT;
 
-		// Highly wonder competitive and still early in game?
-		if(GetDiplomacyAI()->GetWonderCompetitiveness() >= 8 && GC.getGame().getGameTurn() <= (GC.getGame().getEstimateEndTurn() / 2))
-		{
-			eDesiredGreatPerson = (UnitTypes)GC.getInfoTypeForString("UNIT_ENGINEER");
-		}
-		else
-		{
-			// Pick the person based on our victory method
-			AIGrandStrategyTypes eVictoryStrategy = GetGrandStrategyAI()->GetActiveGrandStrategy();
-			if(eVictoryStrategy == (AIGrandStrategyTypes) GC.getInfoTypeForString("AIGRANDSTRATEGY_CONQUEST"))
+			// Highly wonder competitive and still early in game?
+			if (GetDiplomacyAI()->GetWonderCompetitiveness() >= 8 && GC.getGame().getGameTurn() <= (GC.getGame().getEstimateEndTurn() / 2))
 			{
-				eDesiredGreatPerson = (UnitTypes)GC.getInfoTypeForString("UNIT_GREAT_GENERAL");
+				eDesiredGreatPerson = (UnitTypes)GC.getInfoTypeForString("UNIT_ENGINEER");
 			}
-			else if(eVictoryStrategy == (AIGrandStrategyTypes) GC.getInfoTypeForString("AIGRANDSTRATEGY_CULTURE"))
+			else
 			{
-				eDesiredGreatPerson = (UnitTypes)GC.getInfoTypeForString("UNIT_ARTIST");
+				// Pick the person based on our victory method
+				AIGrandStrategyTypes eVictoryStrategy = GetGrandStrategyAI()->GetActiveGrandStrategy();
+				if (eVictoryStrategy == (AIGrandStrategyTypes)GC.getInfoTypeForString("AIGRANDSTRATEGY_CONQUEST"))
+				{
+					eDesiredGreatPerson = (UnitTypes)GC.getInfoTypeForString("UNIT_GREAT_GENERAL");
+				}
+				else if (eVictoryStrategy == (AIGrandStrategyTypes)GC.getInfoTypeForString("AIGRANDSTRATEGY_CULTURE"))
+				{
+					eDesiredGreatPerson = (UnitTypes)GC.getInfoTypeForString("UNIT_ARTIST");
+				}
+				else if (eVictoryStrategy == (AIGrandStrategyTypes)GC.getInfoTypeForString("AIGRANDSTRATEGY_UNITED_NATIONS"))
+				{
+					eDesiredGreatPerson = (UnitTypes)GC.getInfoTypeForString("UNIT_MERCHANT");
+				}
+				else if (eVictoryStrategy == (AIGrandStrategyTypes)GC.getInfoTypeForString("AIGRANDSTRATEGY_SPACESHIP"))
+				{
+					eDesiredGreatPerson = (UnitTypes)GC.getInfoTypeForString("UNIT_SCIENTIST");
+				}
 			}
-			else if(eVictoryStrategy == (AIGrandStrategyTypes) GC.getInfoTypeForString("AIGRANDSTRATEGY_UNITED_NATIONS"))
-			{
-				eDesiredGreatPerson = (UnitTypes)GC.getInfoTypeForString("UNIT_MERCHANT");
-			}
-			else if(eVictoryStrategy == (AIGrandStrategyTypes) GC.getInfoTypeForString("AIGRANDSTRATEGY_SPACESHIP"))
-			{
-				eDesiredGreatPerson = (UnitTypes)GC.getInfoTypeForString("UNIT_SCIENTIST");
-			}
-		}
 
-		if(eDesiredGreatPerson != NO_UNIT)
-		{
-			CvCity* pCapital = getCapitalCity();
-			if(pCapital)
+			if (eDesiredGreatPerson != NO_UNIT)
 			{
-				pCapital->GetCityCitizens()->DoSpawnGreatPerson(eDesiredGreatPerson, true, false);
+				CvCity* pCapital = getCapitalCity();
+				if (pCapital)
+				{
+					pCapital->GetCityCitizens()->DoSpawnGreatPerson(eDesiredGreatPerson, true, false);
+				}
+				ChangeNumFreeGreatPeople(-1);
 			}
-			ChangeNumFreeGreatPeople(-1);
-		}
-		else
-		{
-			break;
+			else
+			{
+				break;
+			}
 		}
 	}
+	else
+	{
+
+	}
+	
 }
 
 void CvPlayerAI::AI_chooseFreeTech()
 {
-	TechTypes eBestTech = NO_TECH;
-
-	clearResearchQueue();
-
-	// TODO: script override
-
-	if(eBestTech == NO_TECH)
+	if (_oldBehaviour || isBarbarian() || isMinorCiv())
 	{
-		eBestTech = GetPlayerTechs()->GetTechAI()->ChooseNextTech(/*bFreeTech*/ true);
-	}
+		TechTypes eBestTech = NO_TECH;
 
-	if(eBestTech != NO_TECH)
-	{
-		GET_TEAM(getTeam()).setHasTech(eBestTech, true, GetID(), true, true);
+		clearResearchQueue();
+
+		// TODO: script override
+
+		if (eBestTech == NO_TECH)
+		{
+			eBestTech = GetPlayerTechs()->GetTechAI()->ChooseNextTech(/*bFreeTech*/ true);
+		}
+
+		if (eBestTech != NO_TECH)
+		{
+			GET_TEAM(getTeam()).setHasTech(eBestTech, true, GetID(), true, true);
+		}
 	}
+	else
+	{
+
+	}
+	
 }
 
 
 void CvPlayerAI::AI_chooseResearch()
 {
-	AI_PERF("AI-perf.csv", "AI_chooseResearch");
-
-	TechTypes eBestTech = NO_TECH;
-	int iI;
-
-	clearResearchQueue();
-
-	if(GetPlayerTechs()->GetCurrentResearch() == NO_TECH)
+	if (_oldBehaviour || isBarbarian() || isMinorCiv())
 	{
-		for(iI = 0; iI < MAX_PLAYERS; iI++)
+		AI_PERF("AI-perf.csv", "AI_chooseResearch");
+
+		TechTypes eBestTech = NO_TECH;
+		int iI;
+
+		clearResearchQueue();
+
+		if (GetPlayerTechs()->GetCurrentResearch() == NO_TECH)
 		{
-			if(GET_PLAYER((PlayerTypes)iI).isAlive())
+			for (iI = 0; iI < MAX_PLAYERS; iI++)
 			{
-				if((iI != GetID()) && (GET_PLAYER((PlayerTypes)iI).getTeam() == getTeam()))
+				if (GET_PLAYER((PlayerTypes)iI).isAlive())
 				{
-					if(GET_PLAYER((PlayerTypes)iI).GetPlayerTechs()->GetCurrentResearch() != NO_TECH)
+					if ((iI != GetID()) && (GET_PLAYER((PlayerTypes)iI).getTeam() == getTeam()))
 					{
-						if(GetPlayerTechs()->CanResearch(GET_PLAYER((PlayerTypes)iI).GetPlayerTechs()->GetCurrentResearch()))
+						if (GET_PLAYER((PlayerTypes)iI).GetPlayerTechs()->GetCurrentResearch() != NO_TECH)
 						{
-							pushResearch(GET_PLAYER((PlayerTypes)iI).GetPlayerTechs()->GetCurrentResearch());
+							if (GetPlayerTechs()->CanResearch(GET_PLAYER((PlayerTypes)iI).GetPlayerTechs()->GetCurrentResearch()))
+							{
+								pushResearch(GET_PLAYER((PlayerTypes)iI).GetPlayerTechs()->GetCurrentResearch());
+							}
 						}
 					}
 				}
 			}
 		}
-	}
 
-	if(GetPlayerTechs()->GetCurrentResearch() == NO_TECH)
+		if (GetPlayerTechs()->GetCurrentResearch() == NO_TECH)
+		{
+			//todo: script override
+
+			if (eBestTech == NO_TECH)
+			{
+				eBestTech = GetPlayerTechs()->GetTechAI()->ChooseNextTech();
+			}
+
+			if (eBestTech != NO_TECH)
+			{
+				pushResearch(eBestTech);
+			}
+		}
+	}
+	else
 	{
-		//todo: script override
 
-		if(eBestTech == NO_TECH)
-		{
-			eBestTech = GetPlayerTechs()->GetTechAI()->ChooseNextTech();
-		}
-
-		if(eBestTech != NO_TECH)
-		{
-			pushResearch(eBestTech);
-		}
 	}
+	
 }
 
 // sort player numbers

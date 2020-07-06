@@ -1398,6 +1398,13 @@ void CvUnit::kill(bool bDelay, PlayerTypes ePlayer /*= NO_PLAYER*/)
 		}
 	}
 
+	//check if the player is still alive
+	CvPlayer* owner = &GET_PLAYER(getOwner());
+	if (owner->GetNumCitiesFounded() == 0 && !(GC.getGame().isOption(GAMEOPTION_COMPLETE_KILLS) && owner->getNumSettlers() == 0))
+	{
+		owner->setAlive(false);
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// WARNING: This next statement will delete 'this'
 	// ANYTHING BELOW HERE MUST NOT REFERENCE THE UNIT!
