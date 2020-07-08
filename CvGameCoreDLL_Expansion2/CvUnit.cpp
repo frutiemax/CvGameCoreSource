@@ -1400,9 +1400,12 @@ void CvUnit::kill(bool bDelay, PlayerTypes ePlayer /*= NO_PLAYER*/)
 
 	//check if the player is still alive
 	CvPlayer* owner = &GET_PLAYER(getOwner());
-	if (owner->GetNumCitiesFounded() == 0 && !(GC.getGame().isOption(GAMEOPTION_COMPLETE_KILLS) && owner->getNumSettlers() == 0))
+	if (!owner->isBarbarian())
 	{
-		owner->setAlive(false);
+		if (owner->GetNumCitiesFounded() == 0 && !(GC.getGame().isOption(GAMEOPTION_COMPLETE_KILLS) && owner->getNumSettlers() == 0))
+		{
+			owner->setAlive(false);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

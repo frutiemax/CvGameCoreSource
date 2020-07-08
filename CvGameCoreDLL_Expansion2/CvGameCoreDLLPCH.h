@@ -94,6 +94,9 @@ typedef wchar_t          wchar;
 #include <Fireworks/Win32/FKBInputDevice.h>
 #include <Fireworks/FFastList.h>
 
+#include <boost/asio.hpp>
+#include <boost/array.hpp>
+
 #include "CvGameDatabase.h"
 #include "CvGameCoreDLLUtil.h"
 #include "CvPoint.h"
