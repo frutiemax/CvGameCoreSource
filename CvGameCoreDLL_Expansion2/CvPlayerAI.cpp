@@ -63,6 +63,10 @@ CvPlayerAI::CvPlayerAI(bool oldBehaviour):
 	_oldBehaviour(oldBehaviour)
 {
 	AI_reset();
+
+	CvAITCPClient& client = GC.GetTCPClient();
+	if (client.IsConnected())
+		_oldBehaviour = false;
 }
 
 
