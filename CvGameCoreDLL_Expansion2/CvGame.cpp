@@ -33,6 +33,7 @@
 #include "CvAdvisorRecommender.h"
 #include "CvWorldBuilderMapLoader.h"
 #include "CvTypes.h"
+#include "CvAITCPClient.h"
 
 #include "cvStopWatch.h"
 #include "CvUnitMission.h"
@@ -139,6 +140,9 @@ CvGame::CvGame() :
 	m_endTurnTimer.Stop();
 
 	reset(NO_HANDICAP, true);
+
+	CvAITCPClient& aiClient = GC.GetTCPClient();
+	aiClient.Connect();
 }
 
 

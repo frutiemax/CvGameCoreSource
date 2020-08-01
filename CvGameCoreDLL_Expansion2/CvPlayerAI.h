@@ -19,7 +19,7 @@ class CvEventTriggerInfo;
 class CvPlayerAI : public CvPlayer
 {
 public:
-	CvPlayerAI(bool oldBehaviour = false);
+	CvPlayerAI(bool oldBehaviour = true);
 	virtual ~CvPlayerAI();
 
 	// inlined for performance reasons
@@ -63,6 +63,7 @@ public:
 	void AI_considerAnnex();
 
 	int AI_plotTargetMissionAIs(CvPlot* pPlot, MissionAITypes eMissionAI, int iRange = 0);
+	void AI_setOldBehaviour(bool bOldBehaviour);
 
 	virtual void AI_launch(VictoryTypes eVictory);
 

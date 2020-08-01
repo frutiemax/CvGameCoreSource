@@ -30,6 +30,7 @@
 #include "CvCitySpecializationAI.h"
 #include "cvStopWatch.h"
 #include "CvEconomicAI.h"
+#include "CvAITCPClient.h"
 
 // Include this after all other headers.
 #include "LintFree.h"
@@ -48,7 +49,10 @@ void CvPlayerAI::initStatics()
 		m_aPlayers[iI].m_eID = ((PlayerTypes)iI);
 	}
 }
-
+void CvPlayerAI::AI_setOldBehaviour(bool bOldBehaviour)
+{
+	_oldBehaviour = bOldBehaviour;
+}
 void CvPlayerAI::freeStatics()
 {
 	SAFE_DELETE_ARRAY(m_aPlayers);

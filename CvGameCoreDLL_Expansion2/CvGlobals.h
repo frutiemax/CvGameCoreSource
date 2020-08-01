@@ -136,7 +136,9 @@ class ICvPlayer1;
 class ICvPlot1;
 class ICvRandom1;
 class ICvUnit1;
+class CvAITCPClient;
 
+#include "CvAITCPClient.h"
 
 class CvGlobals
 {
@@ -166,6 +168,11 @@ public:
 
 	auto_ptr<ICvUnit1> WrapUnitPointer(CvUnit* pUnit);
 	CvUnit*   UnwrapUnitPointer(ICvUnit1* pUnit);
+
+	//AI TCP client
+	CvAITCPClient& GetTCPClient() {
+		return m_aiClient;
+	}
 
 	void init();
 	void uninit();
@@ -7457,7 +7464,7 @@ protected:
 	CvRandom* m_asyncRand;
 
 	CvGame* m_game;
-
+	CvAITCPClient m_aiClient;
 	CvMap* m_map;
 
 	CvTwoLayerPathFinder* m_pathFinder;
