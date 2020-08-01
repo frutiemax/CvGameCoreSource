@@ -39,6 +39,8 @@ namespace AI
 		bool OnCityAIIsChooseProductionDirty();
 		bool OnCityAISetChooseProductionDirty();
 	private:
+		bool sendMessage(class IMessage* message);
+
 		bool _connected;
 		boost::asio::ip::tcp::socket* _socket;
 		boost::asio::io_context _Context;

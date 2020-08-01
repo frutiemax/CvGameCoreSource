@@ -1,4 +1,5 @@
 import socketserver
+import xml.etree.ElementTree as xml
 
 class MyTCPHandler(socketserver.BaseRequestHandler):
     """
@@ -12,10 +13,15 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
     def handle(self):
         # self.request is the TCP socket connected to the client
         self.data = self.request.recv(1024).strip()
+        test = self.data.decode("utf-8")
         print("{} wrote:".format(self.client_address[0]))
-        print(self.data)
-        # just send back the same data, but upper-cased
-        self.request.sendall(self.data.upper())
+        print(test)
+        
+        #test the xml parsing with etree
+        root = xml.fromstring(test)
+        for dummy in root.iter('playerName'):
+            print(dummy.text)
+        
 
 if __name__ == "__main__":
     HOST, PORT = "localhost", 11750

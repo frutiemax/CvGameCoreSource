@@ -44,8 +44,10 @@ void TCPClient::Connect()
 		std::ostringstream stream;
 
 		DummyStruct d;
-		boost::archive::xml_oarchive oArchive(stream);
-		oArchive << BOOST_SERIALIZATION_NVP(d);
+		{
+			boost::archive::xml_oarchive oArchive(stream);
+			oArchive << BOOST_SERIALIZATION_NVP(d);
+		}
 
 		size_t len = _socket->write_some(boost::asio::buffer(stream.str()));
 		_connected = true;
@@ -152,6 +154,11 @@ bool TCPClient::OnCityAIIsChooseProductionDirty()
 }
 
 bool TCPClient::OnCityAISetChooseProductionDirty()
+{
+	return false;
+}
+
+bool AI::TCPClient::sendMessage(IMessage* message)
 {
 	return false;
 }
