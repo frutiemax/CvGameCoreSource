@@ -1,5 +1,6 @@
 #include "TCPClient.h"
 #include "DummyStruct.h"
+#include "Message.h"
 
 #include <string>
 #include <sstream>
@@ -40,16 +41,18 @@ void TCPClient::Connect()
 	boost::asio::connect(*_socket, endpoints, err);
 	if (!err.failed())
 	{
-		std::string hello = "helloworld";
+		//test send and receive
 		std::ostringstream stream;
 
-		DummyStruct d;
-		{
-			boost::archive::xml_oarchive oArchive(stream);
-			oArchive << BOOST_SERIALIZATION_NVP(d);
-		}
+		DummyMessage message("helloworld V2");
+		message.Serialize(stream);
 
 		size_t len = _socket->write_some(boost::asio::buffer(stream.str()));
+
+		boost::array<char, 128> buf;
+		size_t len = _socket->read_some(boost::asio::buffer(buf), err);
+
+
 		_connected = true;
 	}
 	else

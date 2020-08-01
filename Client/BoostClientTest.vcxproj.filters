@@ -24,7 +24,7 @@
     <ClCompile Include="DummyStruct.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IMessage.cpp">
+    <ClCompile Include="Message.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,7 +35,7 @@
     <ClInclude Include="DummyStruct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IMessage.h">
+    <ClInclude Include="Message.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
