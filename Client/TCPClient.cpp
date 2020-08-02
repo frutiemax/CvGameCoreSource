@@ -41,22 +41,18 @@ void TCPClient::Connect()
 	boost::asio::connect(*_socket, endpoints, err);
 	if (!err.failed())
 	{
-		//test send and receive
-		std::ostringstream stream;
-
 		DummyMessage message;
 		message.Message = "helloworld V3";
-		SerializeMessage(message, stream);
+		std::string toSend = SerializeMessage(message);
 
-		size_t len = _socket->write_some(boost::asio::buffer(stream.str()));
+		size_t len = _socket->write_some(boost::asio::buffer(toSend));
 
 		boost::array<char, 1024> buf;
 		len = _socket->read_some(boost::asio::buffer(buf), err);
 		std::string inPacket;
 		inPacket.assign(buf.begin(), buf.begin() + len);
-		std::istringstream inStream(inPacket);
 
-		boost::shared_ptr<IMessage> deserialized = AI::DeserializeMessage(inStream);
+		boost::shared_ptr<IMessage> deserialized = AI::DeserializeMessage(inPacket);
 		IMessage* m = deserialized.get();
 		DummyMessage* dummy = dynamic_cast<DummyMessage*>(m);
 		

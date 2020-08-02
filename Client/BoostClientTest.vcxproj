@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)CvWorldBuilderMap\include\;$(SolutionDir)CvGameCoreDLLUtil\include\;$(SolutionDir)CvLocalization\include\;$(SolutionDir)CvGameDatabase\include\;$(SolutionDir)FirePlace\include\;$(SolutionDir)FirePlace\include\FireWorks\;$(SolutionDir)ThirdPartyLibs\Lua51\include\;$(SolutionDir)ThirdPartyLibs\boost\include\;$(SolutionDir)ThirdPartyLibs\boost\include\asio\;$(SolutionDir)ThirdPartyLibs\boost\include\asio\ip\;$(SolutionDir)ThirdPartyLibs\json;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)CvWorldBuilderMap\include\;$(SolutionDir)CvGameCoreDLLUtil\include\;$(SolutionDir)CvLocalization\include\;$(SolutionDir)CvGameDatabase\include\;$(SolutionDir)FirePlace\include\;$(SolutionDir)FirePlace\include\FireWorks\;$(SolutionDir)ThirdPartyLibs\Lua51\include\;$(SolutionDir)ThirdPartyLibs\boost\include\;$(SolutionDir)ThirdPartyLibs\boost\include\asio\;$(SolutionDir)ThirdPartyLibs\boost\include\asio\ip\;$(SolutionDir)ThirdPartyLibs\tinyxml2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -144,12 +144,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\ThirdPartyLibs\tinyxml2\tinyxml2.cpp" />
     <ClCompile Include="DummyStruct.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="TCPClient.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\ThirdPartyLibs\tinyxml2\tinyxml2.h" />
     <ClInclude Include="DummyStruct.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="TCPClient.h" />

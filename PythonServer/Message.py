@@ -55,25 +55,18 @@ class DummyMessage:
         self.Message = "hello from server"
 
 def serializeDummy(m):
-    pythonSerialization = xml.Element('boost_serialization')
-    pythonSerialization.set('signature','serialization::archive')
-    pythonSerialization.set('version','18')
-
-    messageType = xml.SubElement(pythonSerialization,'MessageType')
-    messageType.text = str(m.MessageType)
-
-    message = xml.SubElement(pythonSerialization,'Message')
-    message.text = m.Message
-
-    return xml.tostring(pythonSerialization)
+    messageElement = xml.Element('Message')
+    messageElement.set('MessageType', str(m.MessageType))
+    messageStringElement = xml.SubElement(messageElement, 'Message')
+    messageStringElement.text = m.Message
+    return xml.tostring(messageElement)
 
 def deserializeDummy(myString):
-    ret = DummyMessage()
     root = xml.fromstring(myString)
-    for child in root:
-        if child.tag == 'Message':
-            ret.Message = child.text
-            return ret
+    message = root[0].text
+    m = DummyMessage()
+    m.Message = message
+    return m
 
 serializeFunction = {DUMMY : serializeDummy}
 def serialize(m):
@@ -82,8 +75,8 @@ def serialize(m):
 deserializeFunction = {DUMMY : deserializeDummy}
 def deserialize(myString):
     root = xml.fromstring(myString)
-    for child in root:
-        if child.tag == 'MessageType':
-            messageType = child.text
-            return deserializeFunction[int(messageType)](myString)
+    if(root.tag == 'Message'):
+        messageType = root.attrib['MessageType']
+        return deserializeFunction[int(messageType)](myString)
+            
             
