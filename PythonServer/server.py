@@ -20,7 +20,13 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
         
         #deserialize the message
         receivedMessage = Message.deserialize(test)
-        print(receivedMessage.messageType)
+        print(receivedMessage.MessageType)
+
+        #send a packet back to the client
+        m = Message.DummyMessage()
+        m.Message = "hello from python"
+        toSend = Message.serialize(m)
+        self.request.sendall(bytes(toSend))
         
 
 if __name__ == "__main__":

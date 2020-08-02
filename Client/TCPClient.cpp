@@ -44,14 +44,27 @@ void TCPClient::Connect()
 		//test send and receive
 		std::ostringstream stream;
 
-		DummyMessage message("helloworld V2");
-		message.Serialize(stream);
+		DummyMessage message;
+		message.Message = "helloworld V3";
+		SerializeMessage(message, stream);
 
 		size_t len = _socket->write_some(boost::asio::buffer(stream.str()));
 
-		boost::array<char, 128> buf;
-		size_t len = _socket->read_some(boost::asio::buffer(buf), err);
+		boost::array<char, 1024> buf;
+		len = _socket->read_some(boost::asio::buffer(buf), err);
+		std::string inPacket;
+		inPacket.assign(buf.begin(), buf.begin() + len);
+		std::istringstream inStream(inPacket);
 
+		boost::shared_ptr<IMessage> deserialized = AI::DeserializeMessage(inStream);
+		IMessage* m = deserialized.get();
+		DummyMessage* dummy = dynamic_cast<DummyMessage*>(m);
+		
+		std::cout << m->GetType();
+		if (dummy)
+		{
+			std::cout << dummy->Message;
+		}
 
 		_connected = true;
 	}
