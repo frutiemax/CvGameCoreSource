@@ -1,6 +1,5 @@
 #include "TCPClient.h"
 #include "DummyStruct.h"
-#include "Message.h"
 
 #include <string>
 #include <sstream>
@@ -29,7 +28,6 @@ void TCPClient::Connect()
 	using namespace boost::asio;
 	using ip::tcp;
 
-	
 	tcp::resolver resolver(_Context);
 
 	//tcp::resolver::results_type endpoints = resolver.resolve("", "101");
@@ -41,26 +39,20 @@ void TCPClient::Connect()
 	boost::asio::connect(*_socket, endpoints, err);
 	if (!err.failed())
 	{
-		DummyMessage message;
-		message.Message = "helloworld V3";
+		/*RequestMessage message(MessageType::REQ_PLAYER_AI_INIT);
 		std::string toSend = SerializeMessage(message);
 
 		size_t len = _socket->write_some(boost::asio::buffer(toSend));
 
 		boost::array<char, 1024> buf;
+
 		len = _socket->read_some(boost::asio::buffer(buf), err);
 		std::string inPacket;
 		inPacket.assign(buf.begin(), buf.begin() + len);
 
 		boost::shared_ptr<IMessage> deserialized = AI::DeserializeMessage(inPacket);
 		IMessage* m = deserialized.get();
-		DummyMessage* dummy = dynamic_cast<DummyMessage*>(m);
-		
-		std::cout << m->GetType();
-		if (dummy)
-		{
-			std::cout << dummy->Message;
-		}
+		std::cout << m->GetType();*/
 
 		_connected = true;
 	}
@@ -72,105 +64,144 @@ void TCPClient::Connect()
 
 bool TCPClient::OnPlayerAIInit()
 {
-	return false;
+	return onAIRequest(MessageType::REQ_PLAYER_AI_INIT);
 }
 
 bool TCPClient::OnPlayerAIReset()
 {
-	return false;
+	return onAIRequest(MessageType::REQ_PLAYER_AI_RESET);
 }
 
 bool TCPClient::OnPlayerAIDoTurnPre()
 {
-	return false;
+	return onAIRequest(MessageType::REQ_PLAYER_AI_DOTURNPRE);
 }
 
 bool TCPClient::OnPlayerAIDoTurnPost()
 {
-	return false;
+	return onAIRequest(MessageType::REQ_PLAYER_AI_DOTURNPOST);
 }
 
 bool TCPClient::OnPlayerAIDoTurnUnitsPre()
 {
-	return false;
+	return onAIRequest(MessageType::REQ_PLAYER_AI_DOTURN_UNITSPRE);
 }
 
 bool TCPClient::OnPlayerAIDoTurnUnitsPost()
 {
-	return false;
+	return onAIRequest(MessageType::REQ_PLAYER_AI_DOTURN_UNITSPOST);
 }
 
 bool TCPClient::OnPlayerAIUpdateFoundValues()
 {
-	return false;
+	return onAIRequest(MessageType::REQ_PLAYER_AI_FOUNDVALUES);
 }
 
 bool TCPClient::OnPlayerAIUnitUpdate()
 {
-	return false;
+	return onAIRequest(MessageType::REQ_PLAYER_AI_UNITUPDATE);
 }
 
 bool TCPClient::OnPlayerAIConquerCity()
 {
-	return false;
+	return onAIRequest(MessageType::REQ_PLAYER_AI_CONQUERCITY);
 }
 
 bool TCPClient::OnPlayerAIFoundValue()
 {
-	return false;
+	return onAIRequest(MessageType::REQ_PLAYER_AI_FOUNDVALUE);
 }
 
 bool TCPClient::OnPlayerAIChooseFreeGreatPerson()
 {
-	return false;
+	return onAIRequest(MessageType::REQ_PLAYER_AI_CHOOSE_FREE_GREATPERSON);
 }
 
 bool TCPClient::OnPlayerAIChooseResearch()
 {
-	return false;
+	return onAIRequest(MessageType::REQ_PLAYER_AI_CHOOSE_RESEARCH);
 }
 
 bool TCPClient::OnPlayerAIPlotTargetMissionAIs()
 {
-	return false;
+	return onAIRequest(MessageType::REQ_PLAYER_AI_PLOTTARGETMISSIONS);
 }
 
 bool TCPClient::OnPlayerAILaunch()
 {
-	return false;
+	return onAIRequest(MessageType::REQ_PLAYER_AI_LAUNCH);
 }
 
 bool TCPClient::OnCityAIInit()
 {
-	return false;
+	return onAIRequest(MessageType::REQ_CITY_AI_INIT);
 }
 
 bool TCPClient::OnCityAIReset()
 {
-	return false;
+	return onAIRequest(MessageType::REQ_CITY_AI_RESET);
 }
 
 bool TCPClient::OnCityAIDoTurn()
 {
-	return false;
+	return onAIRequest(MessageType::REQ_CITY_AI_DOTURN);
 }
 
 bool TCPClient::OnCityAIChooseProduction()
 {
-	return false;
+	return onAIRequest(MessageType::REQ_CITY_AI_CHOOSEPRODUCTION);
 }
 
 bool TCPClient::OnCityAIIsChooseProductionDirty()
 {
-	return false;
+	return onAIRequest(MessageType::REQ_CITY_AI_ISCHOOSEPRODUCTION_DIRTY);
 }
 
 bool TCPClient::OnCityAISetChooseProductionDirty()
 {
-	return false;
+	return onAIRequest(MessageType::REQ_CITY_AI_SETCHOOSEPRODUCTION_DIRTY);
 }
 
-bool AI::TCPClient::sendMessage(IMessage* message)
+bool AI::TCPClient::onAIRequest(MessageType messageType)
+{
+	//send the onPlayerAIInit request message
+	boost::system::error_code err;
+
+	//request the AI behavior
+	RequestMessage request(messageType);
+	std::string toWrite = SerializeMessage(request);
+	_socket->write_some(boost::asio::buffer(toWrite), err);
+	if (err.failed())
+		return false;
+
+	bool finished = false;
+	boost::array<char, 1024> buf;
+
+	while (!finished)
+	{
+		//get a message
+		unsigned int len = _socket->read_some(boost::asio::buffer(buf), err);
+		if (err.failed())
+			return false;
+		std::string inPacket;
+		inPacket.assign(buf.begin(), buf.begin() + len);
+		boost::shared_ptr<IMessage> aiMessage = AI::DeserializeMessage(inPacket);
+
+		/*if (aiMessage->GetType() == AI::MessageType::SEND_PLAYER_AI_INIT)
+			finished = true;
+		else
+		{
+			//process the request from the server
+		}*/
+
+		std::cout << "Received acknowledge of type " << aiMessage->GetType() << std::endl;
+		finished = true;
+
+	}
+	return finished;
+}
+
+bool AI::TCPClient::onGameRequest(AI::MessageType messageType)
 {
 	return false;
 }

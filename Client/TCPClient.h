@@ -5,6 +5,8 @@
 #include <boost/array.hpp>
 #include <boost/asio/ip/tcp.hpp>
 
+#include "Message.h"
+
 namespace AI
 {
 	class TCPClient
@@ -14,6 +16,7 @@ namespace AI
 		virtual ~TCPClient();
 
 		void Connect();
+		bool IsConnected() const { return _connected; };
 
 		//PlayerAI
 		bool OnPlayerAIInit();
@@ -39,7 +42,11 @@ namespace AI
 		bool OnCityAIIsChooseProductionDirty();
 		bool OnCityAISetChooseProductionDirty();
 	private:
-		bool sendMessage(class IMessage* message);
+		//AI requests block the AI flow (it expects an acknowledge message)
+		bool onAIRequest(AI::MessageType messageType);
+
+		//Game requests do not block the flow, the client sends game data to the server
+		bool onGameRequest(AI::MessageType messageType);
 
 		bool _connected;
 		boost::asio::ip::tcp::socket* _socket;
